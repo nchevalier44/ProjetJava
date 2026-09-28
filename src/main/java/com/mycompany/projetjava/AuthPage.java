@@ -1,12 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.projetjava;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import com.mycompany.projetjava.services.UserService;
 import javax.swing.JOptionPane;
 /**
  *
@@ -34,10 +27,10 @@ public class AuthPage extends javax.swing.JFrame {
 
         champID = new javax.swing.JLabel();
         champMDP = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        userLoginIDInput = new javax.swing.JTextField();
+        userLoginPasswordInput = new javax.swing.JPasswordField();
+        userConnectionButton = new javax.swing.JButton();
+        createAccountButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,15 +38,15 @@ public class AuthPage extends javax.swing.JFrame {
 
         champMDP.setText("Mot De Passe");
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        userLoginIDInput.addActionListener(this::userLoginIDInputActionPerformed);
 
-        jPasswordField1.addActionListener(this::jPasswordField1ActionPerformed);
+        userLoginPasswordInput.addActionListener(this::userLoginPasswordInputActionPerformed);
 
-        jButton1.setText("Connexion");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        userConnectionButton.setText("Connexion");
+        userConnectionButton.addActionListener(this::userConnectionButtonActionPerformed);
 
-        jButton2.setText("Créer un Compte");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        createAccountButton.setText("Créer un Compte");
+        createAccountButton.addActionListener(this::createAccountButtonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,14 +61,14 @@ public class AuthPage extends javax.swing.JFrame {
                             .addComponent(champMDP))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1)))
+                            .addComponent(userLoginIDInput, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(userLoginPasswordInput)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(156, 156, 156)
-                        .addComponent(jButton1))
+                        .addComponent(userConnectionButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
-                        .addComponent(jButton2)))
+                        .addComponent(createAccountButton)))
                 .addContainerGap(557, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -84,28 +77,28 @@ public class AuthPage extends javax.swing.JFrame {
                 .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(champID)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userLoginIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(champMDP)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userLoginPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addComponent(userConnectionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(createAccountButton)
                 .addContainerGap(219, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void userLoginIDInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginIDInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_userLoginIDInputActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String loginSaisi = jTextField1.getText();
-        String mdpSaisi = new String(jPasswordField1.getPassword());
+    private void userConnectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userConnectionButtonActionPerformed
+        String loginSaisi = userLoginIDInput.getText();
+        String mdpSaisi = new String(userLoginPasswordInput.getPassword());
 
 
         if (loginSaisi.isEmpty() || mdpSaisi.isEmpty()) {
@@ -115,56 +108,40 @@ public class AuthPage extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         
-        try {
+        UserService userService = new UserService();
+        try{
             
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String lienDB = "jdbc:mysql://localhost:3306/projetjava?zeroDateTimeBehavior=convertToNull";
-            Connection con = DriverManager.getConnection(lienDB, "root", "root");
-
-            
-            String requete = "SELECT * FROM users WHERE id = ? AND password = ?";
-            
-            PreparedStatement pst = con.prepareStatement(requete);
-            pst.setString(1, loginSaisi); 
-            pst.setString(2, mdpSaisi);   
-
-            ResultSet rs = pst.executeQuery();
-
-            
-            if (rs.next()) {
-                
+            boolean exist = userService.userExist(loginSaisi, mdpSaisi);
+        
+            if(exist){
                 JOptionPane.showMessageDialog(this, 
-                    "Connexion réussie !", 
+                    "Connexion réussie !",
                     "Succès", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // Aucune correspondance trouvée : mauvais login ou mauvais mot de passe
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            } else{
                 JOptionPane.showMessageDialog(this, 
                     "Identifiants incorrects.", 
                     "Erreur d'authentification", 
-                    JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE
+                );
             }
-
-            // Fermeture des ressources
-            rs.close();
-            pst.close();
-            con.close();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
                 "Erreur de communication avec la base : " + e.getMessage(), 
                 "Erreur SQL", 
-                JOptionPane.ERROR_MESSAGE);
+                JOptionPane.ERROR_MESSAGE
+            );
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_userConnectionButtonActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void userLoginPasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginPasswordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_userLoginPasswordInputActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
         CreateAccount fenetreInscription = new CreateAccount();
         
         // 2. On l'affiche à l'écran
@@ -172,7 +149,7 @@ public class AuthPage extends javax.swing.JFrame {
         
         // 3. (Optionnel) On ferme la fenêtre de connexion actuelle pour ne pas encombrer l'écran
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_createAccountButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,9 +179,9 @@ public class AuthPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel champID;
     private javax.swing.JLabel champMDP;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton createAccountButton;
+    private javax.swing.JButton userConnectionButton;
+    private javax.swing.JTextField userLoginIDInput;
+    private javax.swing.JPasswordField userLoginPasswordInput;
     // End of variables declaration//GEN-END:variables
 }

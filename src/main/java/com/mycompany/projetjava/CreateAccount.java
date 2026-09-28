@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.projetjava;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import com.mycompany.projetjava.services.UserService;
 import javax.swing.JOptionPane;
 /**
  *
@@ -34,11 +32,11 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        userCreateValidationButton = new javax.swing.JButton();
+        userCreateIDInput = new javax.swing.JTextField();
+        userCreateNameInput = new javax.swing.JTextField();
+        userCreatePasswordInput = new javax.swing.JPasswordField();
+        selectFavoriteSport = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,13 +47,13 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel3.setText("Mot De Passe");
 
-        jButton1.setText("Valider la création du compte");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        userCreateValidationButton.setText("Valider la création du compte");
+        userCreateValidationButton.addActionListener(this::userCreateValidationButtonActionPerformed);
 
-        jPasswordField1.addActionListener(this::jPasswordField1ActionPerformed);
+        userCreatePasswordInput.addActionListener(this::userCreatePasswordInputActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Running", "Cyclisme", "Natation", "Others" }));
-        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
+        selectFavoriteSport.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Running", "Cyclisme", "Natation", "Others" }));
+        selectFavoriteSport.addActionListener(this::selectFavoriteSportActionPerformed);
 
         jLabel4.setText("Sport Favori");
 
@@ -73,21 +71,21 @@ public class CreateAccount extends javax.swing.JFrame {
                                 .addComponent(jLabel2))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(userCreateNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(userCreatePasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addGap(23, 23, 23)
                                             .addComponent(jLabel1))
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(userCreateIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(6, 6, 6)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
-                        .addComponent(jButton1)))
+                        .addComponent(userCreateValidationButton)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -96,32 +94,32 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userCreateIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addGap(2, 2, 2)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userCreateNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userCreatePasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(userCreateValidationButton)
                 .addGap(37, 37, 37))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void userCreateValidationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userCreateValidationButtonActionPerformed
         // TODO add your handling code here:
-        String nouvelID = jTextField1.getText();
-        String nomSaisi = jTextField2.getText();
-        String nouveauMDP = new String(jPasswordField1.getPassword());
+        String nouvelID = userCreateIDInput.getText();
+        String nomSaisi = userCreateNameInput.getText();
+        String nouveauMDP = new String(userCreatePasswordInput.getPassword());
 
       
         if (nouvelID.isEmpty() || nouveauMDP.isEmpty()) {
@@ -131,25 +129,13 @@ public class CreateAccount extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
-
+        
+        UserService userService = new UserService();
+        
         try {
+            boolean successful = userService.addUser(nouvelID, nomSaisi, nouveauMDP);
             
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String lienDB = "jdbc:mysql://localhost:3306/projetjava?zeroDateTimeBehavior=convertToNull";
-            Connection con = DriverManager.getConnection(lienDB, "root", "root");
-
-           
-            String requete = "INSERT INTO users (id,name, password) VALUES (?, ?, ?)";
-            
-            PreparedStatement pst = con.prepareStatement(requete);
-            pst.setString(1, nouvelID); 
-            pst.setString(2, nomSaisi);  
-            pst.setString(3, nouveauMDP);  
-
-      
-            int lignesModifiees = pst.executeUpdate();
-
-            if (lignesModifiees > 0) {
+            if (successful) {
                 JOptionPane.showMessageDialog(this, 
                     "Compte créé avec succès ! Vous allez être redirigé vers la connexion.", 
                     "Succès", 
@@ -157,35 +143,31 @@ public class CreateAccount extends javax.swing.JFrame {
                 
                 this.dispose();
                 
-                
                 new AuthPage().setVisible(true);
             }
 
-       
-            pst.close();
-            con.close();
-
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
-           
             JOptionPane.showMessageDialog(this, 
                 "Cet identifiant existe déjà, veuillez en choisir un autre.", 
                 "Erreur", 
-                JOptionPane.ERROR_MESSAGE);
+                JOptionPane.ERROR_MESSAGE
+            );
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
                 "Erreur lors de la création : " + e.getMessage(), 
                 "Erreur SQL", 
-                JOptionPane.ERROR_MESSAGE);
+                JOptionPane.ERROR_MESSAGE
+            );
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_userCreateValidationButtonActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void userCreatePasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userCreatePasswordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_userCreatePasswordInputActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void selectFavoriteSportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectFavoriteSportActionPerformed
         
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_selectFavoriteSportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,14 +195,14 @@ public class CreateAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JComboBox<String> selectFavoriteSport;
+    private javax.swing.JTextField userCreateIDInput;
+    private javax.swing.JTextField userCreateNameInput;
+    private javax.swing.JPasswordField userCreatePasswordInput;
+    private javax.swing.JButton userCreateValidationButton;
     // End of variables declaration//GEN-END:variables
 }
