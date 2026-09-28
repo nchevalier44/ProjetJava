@@ -19,7 +19,11 @@ public class ProjetJava {
         ResultSet result = st.executeQuery("SELECT * FROM projetjava.users");
         while(result.next()){
             System.out.println(result.getString(2));
+            
         }
+        
+            AuthPage pageConnexion = new AuthPage();
+            pageConnexion.setVisible(true);
     }catch(Exception e){
             System.out.println("Error: " + e.getMessage());
         }}
