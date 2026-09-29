@@ -5,19 +5,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.mycompany.projetjava.models.User;
 
 
 public class UserService {
-    public boolean userExist(String id, String password) throws SQLException {
+    public User getUser(String id, String password) throws SQLException {
         try (Connection connection = DBConnection.getConnection()){
             String request = "SELECT * FROM users WHERE id = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setString(1, id); 
+            statement.setString(1, id);
             statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
-            
-            boolean exist = rs.next();
-            return exist;
+            if(rs.next()){
+                int ID = rs.getInt("id");
+                String name = rs.getString("name");
+                return new User(ID, name);
+            }
+            return null;
         }
     }
     

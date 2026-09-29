@@ -1,0 +1,19 @@
+package com.mycompany.projetjava.models;
+
+public class User {
+    private int id;
+    private String name;
+    
+    public User(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getName(){
+        return this.name;
+    }
+    
+    public int getId(){
+        return this.id;
+    }
+}

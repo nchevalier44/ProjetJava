@@ -1,4 +1,5 @@
 package com.mycompany.projetjava;
+import com.mycompany.projetjava.models.User;
 import com.mycompany.projetjava.services.UserService;
 import javax.swing.JOptionPane;
 /**
@@ -112,14 +113,20 @@ public class AuthPage extends javax.swing.JFrame {
         UserService userService = new UserService();
         try{
             
-            boolean exist = userService.userExist(loginSaisi, mdpSaisi);
-        
-            if(exist){
+            User user = userService.getUser(loginSaisi, mdpSaisi);
+            if(user != null){
+                UserSession.getInstance().setUser(user);
                 JOptionPane.showMessageDialog(this, 
                     "Connexion réussie !",
                     "Succès", 
                     JOptionPane.INFORMATION_MESSAGE
                 );
+                
+                
+                HomePage home = new HomePage();
+                home.setVisible(true);
+                this.dispose();
+                
             } else{
                 JOptionPane.showMessageDialog(this, 
                     "Identifiants incorrects.", 
