@@ -33,13 +33,13 @@
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="userLoginIDInput" pref="71" max="32767" attributes="0"/>
-                          <Component id="userLoginPasswordInput" max="32767" attributes="0"/>
+                          <Component id="IdInput" pref="71" max="32767" attributes="0"/>
+                          <Component id="passwordInput" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
-                      <Component id="userConnectionButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="connectionButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
@@ -56,15 +56,15 @@
               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="champID" min="-2" max="-2" attributes="0"/>
-                  <Component id="userLoginIDInput" min="-2" max="-2" attributes="0"/>
+                  <Component id="IdInput" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="champMDP" min="-2" max="-2" attributes="0"/>
-                  <Component id="userLoginPasswordInput" min="-2" max="-2" attributes="0"/>
+                  <Component id="passwordInput" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Component id="userConnectionButton" min="-2" max="-2" attributes="0"/>
+              <Component id="connectionButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="createAccountButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="219" max="32767" attributes="0"/>
@@ -83,22 +83,22 @@
         <Property name="text" type="java.lang.String" value="Mot De Passe"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="userLoginIDInput">
+    <Component class="javax.swing.JTextField" name="IdInput">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userLoginIDInputActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="IdInputActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="userLoginPasswordInput">
+    <Component class="javax.swing.JPasswordField" name="passwordInput">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userLoginPasswordInputActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordInputActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="userConnectionButton">
+    <Component class="javax.swing.JButton" name="connectionButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Connexion"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userConnectionButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectionButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="createAccountButton">

@@ -28,9 +28,9 @@ public class AuthPage extends javax.swing.JFrame {
 
         champID = new javax.swing.JLabel();
         champMDP = new javax.swing.JLabel();
-        userLoginIDInput = new javax.swing.JTextField();
-        userLoginPasswordInput = new javax.swing.JPasswordField();
-        userConnectionButton = new javax.swing.JButton();
+        IdInput = new javax.swing.JTextField();
+        passwordInput = new javax.swing.JPasswordField();
+        connectionButton = new javax.swing.JButton();
         createAccountButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -39,12 +39,12 @@ public class AuthPage extends javax.swing.JFrame {
 
         champMDP.setText("Mot De Passe");
 
-        userLoginIDInput.addActionListener(this::userLoginIDInputActionPerformed);
+        IdInput.addActionListener(this::IdInputActionPerformed);
 
-        userLoginPasswordInput.addActionListener(this::userLoginPasswordInputActionPerformed);
+        passwordInput.addActionListener(this::passwordInputActionPerformed);
 
-        userConnectionButton.setText("Connexion");
-        userConnectionButton.addActionListener(this::userConnectionButtonActionPerformed);
+        connectionButton.setText("Connexion");
+        connectionButton.addActionListener(this::connectionButtonActionPerformed);
 
         createAccountButton.setText("Créer un Compte");
         createAccountButton.addActionListener(this::createAccountButtonActionPerformed);
@@ -62,11 +62,11 @@ public class AuthPage extends javax.swing.JFrame {
                             .addComponent(champMDP))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userLoginIDInput, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                            .addComponent(userLoginPasswordInput)))
+                            .addComponent(IdInput, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(passwordInput)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(156, 156, 156)
-                        .addComponent(userConnectionButton))
+                        .addComponent(connectionButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(createAccountButton)))
@@ -78,13 +78,13 @@ public class AuthPage extends javax.swing.JFrame {
                 .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(champID)
-                    .addComponent(userLoginIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(champMDP)
-                    .addComponent(userLoginPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(userConnectionButton)
+                .addComponent(connectionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(createAccountButton)
                 .addContainerGap(219, Short.MAX_VALUE))
@@ -93,13 +93,13 @@ public class AuthPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void userLoginIDInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginIDInputActionPerformed
+    private void IdInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userLoginIDInputActionPerformed
+    }//GEN-LAST:event_IdInputActionPerformed
 
-    private void userConnectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userConnectionButtonActionPerformed
-        String loginSaisi = userLoginIDInput.getText();
-        String mdpSaisi = new String(userLoginPasswordInput.getPassword());
+    private void connectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionButtonActionPerformed
+        String loginSaisi = IdInput.getText();
+        String mdpSaisi = new String(passwordInput.getPassword());
 
 
         if (loginSaisi.isEmpty() || mdpSaisi.isEmpty()) {
@@ -142,11 +142,11 @@ public class AuthPage extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
             );
         }
-    }//GEN-LAST:event_userConnectionButtonActionPerformed
+    }//GEN-LAST:event_connectionButtonActionPerformed
 
-    private void userLoginPasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginPasswordInputActionPerformed
+    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userLoginPasswordInputActionPerformed
+    }//GEN-LAST:event_passwordInputActionPerformed
 
     private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
         CreateAccount fenetreInscription = new CreateAccount();
@@ -184,11 +184,11 @@ public class AuthPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField IdInput;
     private javax.swing.JLabel champID;
     private javax.swing.JLabel champMDP;
+    private javax.swing.JButton connectionButton;
     private javax.swing.JButton createAccountButton;
-    private javax.swing.JButton userConnectionButton;
-    private javax.swing.JTextField userLoginIDInput;
-    private javax.swing.JPasswordField userLoginPasswordInput;
+    private javax.swing.JPasswordField passwordInput;
     // End of variables declaration//GEN-END:variables
 }

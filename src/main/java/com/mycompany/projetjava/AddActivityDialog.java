@@ -31,7 +31,7 @@ public class AddActivityDialog extends javax.swing.JDialog {
         LocalDateTime currentDateTime = dateTimePicker.getDateTimePermissive();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = currentDateTime.format(formatter);
-        addActivityTitleInput.setText("Activity - " + formattedDateTime);
+        titleInput.setText("Activity - " + formattedDateTime);
     }
     
     private void initDateTimePicker(){
@@ -48,7 +48,7 @@ public class AddActivityDialog extends javax.swing.JDialog {
             ActivityService s = new ActivityService();
             ArrayList<ActivityType> types = s.getAllActivityTypes();
             for(ActivityType type : types){
-                addActivityTypeSelect.addItem(type);
+                typeSelect.addItem(type);
             }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(this, 
@@ -73,19 +73,19 @@ public class AddActivityDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        addActivityTitleInput = new javax.swing.JTextField();
+        titleInput = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        addActivityDescriptionInput = new javax.swing.JTextArea();
-        addActivityTypeSelect = new javax.swing.JComboBox<>();
+        descriptionInput = new javax.swing.JTextArea();
+        typeSelect = new javax.swing.JComboBox<>();
         panelDateTime = new javax.swing.JPanel();
-        addActivityHoursInput = new javax.swing.JSpinner();
-        addActivityMinutesInput = new javax.swing.JSpinner();
-        addActivitySecondsInput = new javax.swing.JSpinner();
+        hoursInput = new javax.swing.JSpinner();
+        minutesInput = new javax.swing.JSpinner();
+        secondsInput = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        addActivityConfirmButton = new javax.swing.JButton();
-        addActivityCancelButton = new javax.swing.JButton();
+        confirmButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -105,19 +105,19 @@ public class AddActivityDialog extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Duration");
 
-        addActivityTitleInput.addActionListener(this::addActivityTitleInputActionPerformed);
+        titleInput.addActionListener(this::titleInputActionPerformed);
 
-        addActivityDescriptionInput.setColumns(20);
-        addActivityDescriptionInput.setRows(5);
-        jScrollPane1.setViewportView(addActivityDescriptionInput);
+        descriptionInput.setColumns(20);
+        descriptionInput.setRows(5);
+        jScrollPane1.setViewportView(descriptionInput);
 
         panelDateTime.setLayout(new java.awt.BorderLayout());
 
-        addActivityHoursInput.setModel(new javax.swing.SpinnerNumberModel(1, 0, 24, 1));
+        hoursInput.setModel(new javax.swing.SpinnerNumberModel(1, 0, 24, 1));
 
-        addActivityMinutesInput.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        minutesInput.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
-        addActivitySecondsInput.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        secondsInput.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
         jLabel5.setText("Hours");
 
@@ -125,11 +125,11 @@ public class AddActivityDialog extends javax.swing.JDialog {
 
         jLabel8.setText("Seconds");
 
-        addActivityConfirmButton.setText("Confirm");
-        addActivityConfirmButton.addActionListener(this::addActivityConfirmButtonActionPerformed);
+        confirmButton.setText("Confirm");
+        confirmButton.addActionListener(this::confirmButtonActionPerformed);
 
-        addActivityCancelButton.setText("Cancel");
-        addActivityCancelButton.addActionListener(this::addActivityCancelButtonActionPerformed);
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(this::cancelButtonActionPerformed);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel9.setText("Add an activity");
@@ -150,7 +150,7 @@ public class AddActivityDialog extends javax.swing.JDialog {
                                 .addGap(49, 49, 49)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1)
-                                    .addComponent(addActivityTitleInput)))
+                                    .addComponent(titleInput)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -162,25 +162,25 @@ public class AddActivityDialog extends javax.swing.JDialog {
                                         .addComponent(panelDateTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(94, 94, 94)
-                                        .addComponent(addActivityTypeSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(typeSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(94, 94, 94)
-                                        .addComponent(addActivityHoursInput, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(hoursInput, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel5)
                                         .addGap(18, 18, 18)
-                                        .addComponent(addActivityMinutesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(minutesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)
-                                        .addComponent(addActivitySecondsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(secondsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel8))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(addActivityConfirmButton)
+                                        .addComponent(confirmButton)
                                         .addGap(100, 100, 100)
-                                        .addComponent(addActivityCancelButton)
+                                        .addComponent(cancelButton)
                                         .addGap(121, 121, 121))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
@@ -195,7 +195,7 @@ public class AddActivityDialog extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(addActivityTitleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,7 +205,7 @@ public class AddActivityDialog extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(addActivityTypeSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(typeSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -215,36 +215,36 @@ public class AddActivityDialog extends javax.swing.JDialog {
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(addActivityHoursInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addActivityMinutesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addActivitySecondsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hoursInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(minutesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(secondsInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(addActivityConfirmButton)
+                        .addComponent(confirmButton)
                         .addGap(47, 47, 47))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addActivityCancelButton)
+                        .addComponent(cancelButton)
                         .addGap(44, 44, 44))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addActivityTitleInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityTitleInputActionPerformed
+    private void titleInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addActivityTitleInputActionPerformed
+    }//GEN-LAST:event_titleInputActionPerformed
 
-    private void addActivityConfirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityConfirmButtonActionPerformed
-        String title = addActivityTitleInput.getText();
-        String description = addActivityDescriptionInput.getText();
-        ActivityType type = (ActivityType) addActivityTypeSelect.getSelectedItem();
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        String title = titleInput.getText();
+        String description = descriptionInput.getText();
+        ActivityType type = (ActivityType) typeSelect.getSelectedItem();
         LocalDateTime datetime = dateTimePicker.getDateTimePermissive();
-        int hours = (int) addActivityHoursInput.getValue();
-        int minutes = (int) addActivityMinutesInput.getValue();
-        int seconds = (int) addActivitySecondsInput.getValue();
+        int hours = (int) hoursInput.getValue();
+        int minutes = (int) minutesInput.getValue();
+        int seconds = (int) secondsInput.getValue();
         int duration = hours * 3600 + minutes * 60 + seconds;
         
         Activity activity = new Activity(title, description, type, datetime, duration);
@@ -263,11 +263,11 @@ public class AddActivityDialog extends javax.swing.JDialog {
         this.dispose();
         
         
-    }//GEN-LAST:event_addActivityConfirmButtonActionPerformed
+    }//GEN-LAST:event_confirmButtonActionPerformed
 
-    private void addActivityCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityCancelButtonActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         this.dispose();
-    }//GEN-LAST:event_addActivityCancelButtonActionPerformed
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,14 +307,10 @@ public class AddActivityDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addActivityCancelButton;
-    private javax.swing.JButton addActivityConfirmButton;
-    private javax.swing.JTextArea addActivityDescriptionInput;
-    private javax.swing.JSpinner addActivityHoursInput;
-    private javax.swing.JSpinner addActivityMinutesInput;
-    private javax.swing.JSpinner addActivitySecondsInput;
-    private javax.swing.JTextField addActivityTitleInput;
-    private javax.swing.JComboBox<ActivityType> addActivityTypeSelect;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton confirmButton;
+    private javax.swing.JTextArea descriptionInput;
+    private javax.swing.JSpinner hoursInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -325,6 +321,10 @@ public class AddActivityDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner minutesInput;
     private javax.swing.JPanel panelDateTime;
+    private javax.swing.JSpinner secondsInput;
+    private javax.swing.JTextField titleInput;
+    private javax.swing.JComboBox<ActivityType> typeSelect;
     // End of variables declaration//GEN-END:variables
 }

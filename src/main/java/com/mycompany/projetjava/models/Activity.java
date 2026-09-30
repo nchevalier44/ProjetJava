@@ -1,6 +1,7 @@
 package com.mycompany.projetjava.models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -20,7 +21,7 @@ public class Activity {
         this.duration = duration;
     }
     
-    public Activity(int id, String title, String description, ActivityType type, LocalDateTime datetime, int duration, int userID){
+    public Activity(int id, String title, String description, ActivityType type, LocalDateTime datetime, int duration){
         this(title, description, type, datetime, duration);
         this.id = id;
     }
@@ -49,5 +50,10 @@ public class Activity {
         return this.duration;
     }
     
-    
+    @Override
+    public String toString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDateTime = this.datetime.format(formatter);
+        return formattedDateTime + " | " + this.title;
+   }
 }

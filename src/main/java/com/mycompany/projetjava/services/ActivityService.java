@@ -8,8 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ActivityService {
     
@@ -53,5 +53,31 @@ public class ActivityService {
             }
         }
         return types;
+    }
+    
+    public ArrayList<Activity> getAllUserActivities() throws SQLException {
+        ArrayList<Activity> activities = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection()){
+            String request = "SELECT a.id, a.title, a.description, at.id AS type_id, at.name AS type_name, a.datetime, a.duration "
+                    + "FROM projetjava.activities a "
+                    + "JOIN activity_types AS at ON a.type_id = at.id "
+                    + "WHERE a.user_id = ? "
+                    + "ORDER BY a.datetime DESC";
+;
+            PreparedStatement statement = connection.prepareStatement(request);
+            statement.setInt(1, UserSession.getInstance().getId());
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+                ActivityType type = new ActivityType(rs.getInt("type_id"), rs.getString("type_name"));
+                LocalDateTime datetime = rs.getObject("datetime", LocalDateTime.class);
+                int duration = rs.getInt("duration");
+                Activity activity = new Activity(id, title, description, type, datetime, duration);
+                activities.add(activity);
+            }
+        }
+        return activities;
     }
 }

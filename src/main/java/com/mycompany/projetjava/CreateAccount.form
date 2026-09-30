@@ -34,8 +34,8 @@
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                               <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="userCreateNameInput" min="-2" pref="71" max="-2" attributes="0"/>
-                                  <Component id="userCreatePasswordInput" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <Component id="nameInput" min="-2" pref="71" max="-2" attributes="0"/>
+                                  <Component id="passwordInput" min="-2" pref="82" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="selectFavoriteSport" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -46,7 +46,7 @@
                                           <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="userCreateIDInput" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
+                                      <Component id="IdInput" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               </Group>
@@ -55,7 +55,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                      <Component id="userCreateValidationButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="validationButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="123" max="32767" attributes="0"/>
@@ -68,21 +68,21 @@
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="userCreateIDInput" min="-2" max="-2" attributes="0"/>
+              <Component id="IdInput" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              <Component id="userCreateNameInput" min="-2" max="-2" attributes="0"/>
+              <Component id="nameInput" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="userCreatePasswordInput" min="-2" max="-2" attributes="0"/>
+              <Component id="passwordInput" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="17" max="32767" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="selectFavoriteSport" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="userCreateValidationButton" min="-2" max="-2" attributes="0"/>
+              <Component id="validationButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -104,21 +104,21 @@
         <Property name="text" type="java.lang.String" value="Mot De Passe"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="userCreateValidationButton">
+    <Component class="javax.swing.JButton" name="validationButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Valider la cr&#xe9;ation du compte"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userCreateValidationButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="validationButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="userCreateIDInput">
+    <Component class="javax.swing.JTextField" name="IdInput">
     </Component>
-    <Component class="javax.swing.JTextField" name="userCreateNameInput">
+    <Component class="javax.swing.JTextField" name="nameInput">
     </Component>
-    <Component class="javax.swing.JPasswordField" name="userCreatePasswordInput">
+    <Component class="javax.swing.JPasswordField" name="passwordInput">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userCreatePasswordInputActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordInputActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="selectFavoriteSport">

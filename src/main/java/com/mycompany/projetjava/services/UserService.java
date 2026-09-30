@@ -11,14 +11,14 @@ import com.mycompany.projetjava.models.User;
 public class UserService {
     public User getUser(String id, String password) throws SQLException {
         try (Connection connection = DBConnection.getConnection()){
-            String request = "SELECT * FROM users WHERE id = ? AND password = ?";
+            String request = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setString(1, id);
             statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
                 int ID = rs.getInt("id");
-                String name = rs.getString("name");
+                String name = rs.getString("display_name");
                 return new User(ID, name);
             }
             return null;
@@ -27,7 +27,7 @@ public class UserService {
     
     public boolean addUser(String id, String name, String password) throws SQLException, java.sql.SQLIntegrityConstraintViolationException{
         try (Connection connection = DBConnection.getConnection()){
-            String request = "INSERT INTO users (id, name, password) VALUES (?, ?, ?)";
+            String request = "INSERT INTO users (username, display_name, password) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setString(1, id); 
             statement.setString(2, name);  

@@ -32,10 +32,10 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        userCreateValidationButton = new javax.swing.JButton();
-        userCreateIDInput = new javax.swing.JTextField();
-        userCreateNameInput = new javax.swing.JTextField();
-        userCreatePasswordInput = new javax.swing.JPasswordField();
+        validationButton = new javax.swing.JButton();
+        IdInput = new javax.swing.JTextField();
+        nameInput = new javax.swing.JTextField();
+        passwordInput = new javax.swing.JPasswordField();
         selectFavoriteSport = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
 
@@ -47,10 +47,10 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel3.setText("Mot De Passe");
 
-        userCreateValidationButton.setText("Valider la création du compte");
-        userCreateValidationButton.addActionListener(this::userCreateValidationButtonActionPerformed);
+        validationButton.setText("Valider la création du compte");
+        validationButton.addActionListener(this::validationButtonActionPerformed);
 
-        userCreatePasswordInput.addActionListener(this::userCreatePasswordInputActionPerformed);
+        passwordInput.addActionListener(this::passwordInputActionPerformed);
 
         selectFavoriteSport.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Running", "Cyclisme", "Natation", "Others" }));
         selectFavoriteSport.addActionListener(this::selectFavoriteSportActionPerformed);
@@ -71,8 +71,8 @@ public class CreateAccount extends javax.swing.JFrame {
                                 .addComponent(jLabel2))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(userCreateNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(userCreatePasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3)
                                     .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4))
@@ -81,11 +81,11 @@ public class CreateAccount extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addGap(23, 23, 23)
                                             .addComponent(jLabel1))
-                                        .addComponent(userCreateIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(6, 6, 6)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
-                        .addComponent(userCreateValidationButton)))
+                        .addComponent(validationButton)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -94,32 +94,32 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userCreateIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addGap(2, 2, 2)
-                .addComponent(userCreateNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userCreatePasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(userCreateValidationButton)
+                .addComponent(validationButton)
                 .addGap(37, 37, 37))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void userCreateValidationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userCreateValidationButtonActionPerformed
+    private void validationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validationButtonActionPerformed
         // TODO add your handling code here:
-        String nouvelID = userCreateIDInput.getText();
-        String nomSaisi = userCreateNameInput.getText();
-        String nouveauMDP = new String(userCreatePasswordInput.getPassword());
+        String nouvelID = IdInput.getText();
+        String nomSaisi = nameInput.getText();
+        String nouveauMDP = new String(passwordInput.getPassword());
 
       
         if (nouvelID.isEmpty() || nouveauMDP.isEmpty()) {
@@ -159,11 +159,11 @@ public class CreateAccount extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
             );
         }
-    }//GEN-LAST:event_userCreateValidationButtonActionPerformed
+    }//GEN-LAST:event_validationButtonActionPerformed
 
-    private void userCreatePasswordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userCreatePasswordInputActionPerformed
+    private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userCreatePasswordInputActionPerformed
+    }//GEN-LAST:event_passwordInputActionPerformed
 
     private void selectFavoriteSportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectFavoriteSportActionPerformed
         
@@ -195,14 +195,14 @@ public class CreateAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField IdInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField nameInput;
+    private javax.swing.JPasswordField passwordInput;
     private javax.swing.JComboBox<String> selectFavoriteSport;
-    private javax.swing.JTextField userCreateIDInput;
-    private javax.swing.JTextField userCreateNameInput;
-    private javax.swing.JPasswordField userCreatePasswordInput;
-    private javax.swing.JButton userCreateValidationButton;
+    private javax.swing.JButton validationButton;
     // End of variables declaration//GEN-END:variables
 }

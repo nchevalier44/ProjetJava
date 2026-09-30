@@ -1,7 +1,12 @@
 package com.mycompany.projetjava;
 
+import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.services.ActivityService;
 import com.mycompany.projetjava.services.UserService;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -22,6 +27,23 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage() {
         initComponents();
+        fillActivitiesList();
+    }
+    
+    private void fillActivitiesList(){
+        ActivityService as = new ActivityService();
+        try{
+            ArrayList<Activity> activities = as.getAllUserActivities();
+            DefaultListModel<Activity> listModel = new DefaultListModel<>();
+            listModel.addAll(activities);
+            activitiesList.setModel(listModel);
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(this, 
+                "Error while loading your activities!",
+                "Database Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     /**
@@ -34,7 +56,7 @@ public class HomePage extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        activitiesList = new javax.swing.JList<>();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         deleteActivityButton = new javax.swing.JButton();
         addActivityButton = new javax.swing.JButton();
@@ -43,13 +65,8 @@ public class HomePage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jList1);
+        activitiesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(activitiesList);
 
         deleteActivityButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         deleteActivityButton.setText("Delete");
@@ -76,14 +93,11 @@ public class HomePage extends javax.swing.JFrame {
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                                .addComponent(deleteActivityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                                .addComponent(addActivityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)))))
+                        .addComponent(deleteActivityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(addActivityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -135,6 +149,23 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActivityButtonActionPerformed
+        Activity activity = activitiesList.getSelectedValue();
+        if(activity == null) return;
+        int choice = JOptionPane.showConfirmDialog(this, "Are you sure that you want to delete the following activity: " + activity.getTitle());
+        if(choice == JOptionPane.YES_OPTION){
+            ActivityService as = new ActivityService();
+            try{
+                as.delete(activity);
+                fillActivitiesList();
+            } catch(SQLException e){
+                JOptionPane.showMessageDialog(this, 
+                    "Error while deleting the activity!",
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
+       
     }//GEN-LAST:event_deleteActivityButtonActionPerformed
 
     private void addActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityButtonActionPerformed
@@ -172,12 +203,12 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<Activity> activitiesList;
     private javax.swing.JButton addActivityButton;
     private javax.swing.JButton deleteActivityButton;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
