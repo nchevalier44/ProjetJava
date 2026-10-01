@@ -26,3 +26,11 @@ CREATE TABLE activities (
     CONSTRAINT fk_activity_type FOREIGN KEY (type_id) REFERENCES activity_types(id),
     CONSTRAINT fk_activity_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+INSERT INTO activity_types (name) VALUES 
+('Course à pied'),
+('Natation'),
+('Renforcement musculaire'),
+('Vélo'),
+('Marche'),
+('Randonnée');

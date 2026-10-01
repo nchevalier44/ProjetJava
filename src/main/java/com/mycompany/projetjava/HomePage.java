@@ -171,6 +171,7 @@ public class HomePage extends javax.swing.JFrame {
     private void addActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityButtonActionPerformed
         AddActivityDialog dialog = new AddActivityDialog(this, true);
         dialog.setVisible(true);
+        fillActivitiesList();
     }//GEN-LAST:event_addActivityButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

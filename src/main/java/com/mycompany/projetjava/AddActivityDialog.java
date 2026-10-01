@@ -253,7 +253,6 @@ public class AddActivityDialog extends javax.swing.JDialog {
         try{
             as.add(activity);
         } catch(SQLException e){
-            e.printStackTrace();
             JOptionPane.showMessageDialog(this, 
                 "Error while adding new Activity!",
                 "Database Error",
