@@ -18,23 +18,28 @@ public class UserService {
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
                 int ID = rs.getInt("id");
-                String name = rs.getString("display_name");
+                String name = rs.getString("name");
                 return new User(ID, name);
             }
             return null;
         }
     }
     
-    public boolean addUser(String id, String name, String password) throws SQLException, java.sql.SQLIntegrityConstraintViolationException{
+    public boolean addUser(String username, String name, String surname, String password, String sport_favori, boolean visibilite) throws SQLException, java.sql.SQLIntegrityConstraintViolationException{
+        
         try (Connection connection = DBConnection.getConnection()){
-            String request = "INSERT INTO users (username, display_name, password) VALUES (?, ?, ?)";
+            String request = "INSERT INTO users (username, name, surname, password, sport_favori, visibilite) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(request);
-            statement.setString(1, id); 
-            statement.setString(2, name);  
-            statement.setString(3, password);
+            
+            statement.setString(1, username);
+            statement.setString(2, name);     
+            statement.setString(3, surname);  
+            statement.setString(4, password); 
+            statement.setString(5, sport_favori); 
+            statement.setBoolean(6, visibilite); // NOUVEAU : On envoie un boolean à la BDD
             
             int modifiedLines = statement.executeUpdate();
             return modifiedLines > 0;
         }
-    }                                
+    }                    
 }

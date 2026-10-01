@@ -15,6 +15,8 @@ public class AuthPage extends javax.swing.JFrame {
      */
     public AuthPage() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(152,251,152));
+        
     }
 
     /**
@@ -32,62 +34,69 @@ public class AuthPage extends javax.swing.JFrame {
         passwordInput = new javax.swing.JPasswordField();
         connectionButton = new javax.swing.JButton();
         createAccountButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 255, 153));
 
         champID.setText("Identifiant");
 
         champMDP.setText("Mot De Passe");
 
+        IdInput.setBackground(new java.awt.Color(0, 204, 0));
         IdInput.addActionListener(this::IdInputActionPerformed);
 
+        passwordInput.setBackground(new java.awt.Color(0, 204, 0));
         passwordInput.addActionListener(this::passwordInputActionPerformed);
 
+        connectionButton.setBackground(new java.awt.Color(0, 129, 0));
+        connectionButton.setForeground(new java.awt.Color(255, 255, 255));
         connectionButton.setText("Connexion");
         connectionButton.addActionListener(this::connectionButtonActionPerformed);
 
+        createAccountButton.setBackground(new java.awt.Color(0, 129, 0));
+        createAccountButton.setForeground(new java.awt.Color(255, 255, 255));
         createAccountButton.setText("Créer un Compte");
         createAccountButton.addActionListener(this::createAccountButtonActionPerformed);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("CONNEXION");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(champID)
-                            .addComponent(champMDP))
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(IdInput, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                            .addComponent(passwordInput)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(156, 156, 156)
-                        .addComponent(connectionButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(createAccountButton)))
-                .addContainerGap(557, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(champMDP)
+                    .addComponent(champID)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(IdInput)
+                    .addComponent(passwordInput)
+                    .addComponent(connectionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(createAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(champID)
-                    .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(champMDP)
-                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(connectionButton)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(champID)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(champMDP)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(connectionButton)
+                .addGap(18, 18, 18)
                 .addComponent(createAccountButton)
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -95,6 +104,7 @@ public class AuthPage extends javax.swing.JFrame {
 
     private void IdInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdInputActionPerformed
         // TODO add your handling code here:
+        connectionButton.doClick();
     }//GEN-LAST:event_IdInputActionPerformed
 
     private void connectionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionButtonActionPerformed
@@ -116,11 +126,7 @@ public class AuthPage extends javax.swing.JFrame {
             User user = userService.getUser(loginSaisi, mdpSaisi);
             if(user != null){
                 UserSession.getInstance().setUser(user);
-                JOptionPane.showMessageDialog(this, 
-                    "Connexion réussie !",
-                    "Succès", 
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                
                 
                 
                 HomePage home = new HomePage();
@@ -146,13 +152,15 @@ public class AuthPage extends javax.swing.JFrame {
 
     private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
         // TODO add your handling code here:
+        connectionButton.doClick();
     }//GEN-LAST:event_passwordInputActionPerformed
 
     private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
         CreateAccount fenetreInscription = new CreateAccount();
-        
+           
         // 2. On l'affiche à l'écran
         fenetreInscription.setVisible(true);
+       
         
         // 3. (Optionnel) On ferme la fenêtre de connexion actuelle pour ne pas encombrer l'écran
         this.dispose();
@@ -189,6 +197,7 @@ public class AuthPage extends javax.swing.JFrame {
     private javax.swing.JLabel champMDP;
     private javax.swing.JButton connectionButton;
     private javax.swing.JButton createAccountButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField passwordInput;
     // End of variables declaration//GEN-END:variables
 }

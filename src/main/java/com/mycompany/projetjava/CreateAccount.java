@@ -29,6 +29,13 @@ public class CreateAccount extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
+        buttonGroup7 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -38,6 +45,12 @@ public class CreateAccount extends javax.swing.JFrame {
         passwordInput = new javax.swing.JPasswordField();
         selectFavoriteSport = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        FirstNameInput = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        PrivateInput = new javax.swing.JRadioButton();
+        PublicInput = new javax.swing.JRadioButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +70,25 @@ public class CreateAccount extends javax.swing.JFrame {
 
         jLabel4.setText("Sport Favori");
 
+        jLabel5.setText("Prénom");
+
+        FirstNameInput.addActionListener(this::FirstNameInputActionPerformed);
+
+        jLabel6.setText("Confidentialité Compte");
+
+        buttonGroup1.add(PrivateInput);
+        PrivateInput.setLabel("Public");
+
+        buttonGroup1.add(PublicInput);
+        PublicInput.setSelected(true);
+        PublicInput.setText("Privé");
+        PublicInput.addActionListener(this::PublicInputActionPerformed);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("INSCRIPTION");
+        jLabel7.setToolTipText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -64,63 +96,85 @@ public class CreateAccount extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(23, 23, 23)
-                                            .addComponent(jLabel1))
-                                        .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(6, 6, 6)))))
+                        .addGap(203, 203, 203)
+                        .addComponent(PublicInput))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
-                        .addComponent(validationButton)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                        .addComponent(validationButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(PrivateInput))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(IdInput)
+                            .addComponent(FirstNameInput)
+                            .addComponent(nameInput)
+                            .addComponent(passwordInput)
+                            .addComponent(jLabel4)
+                            .addComponent(selectFavoriteSport, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
+                .addContainerGap(483, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(11, 11, 11)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(IdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FirstNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addGap(2, 2, 2)
+                .addGap(3, 3, 3)
                 .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PublicInput)
+                    .addComponent(PrivateInput))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(validationButton)
-                .addGap(37, 37, 37))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void validationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validationButtonActionPerformed
-        // TODO add your handling code here:
+                                                 
+   
         String nouvelID = IdInput.getText();
         String nomSaisi = nameInput.getText();
         String nouveauMDP = new String(passwordInput.getPassword());
-
+        String prenomSaisi = FirstNameInput.getText();
+        String sportFavori = (String) selectFavoriteSport.getSelectedItem();
+        
+        boolean visibilite = false; 
+        if (PublicInput.isSelected()) {
+            visibilite = false; 
+        } else if (PrivateInput.isSelected()) {
+            visibilite = true;
+        }
       
         if (nouvelID.isEmpty() || nouveauMDP.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
@@ -133,7 +187,7 @@ public class CreateAccount extends javax.swing.JFrame {
         UserService userService = new UserService();
         
         try {
-            boolean successful = userService.addUser(nouvelID, nomSaisi, nouveauMDP);
+            boolean successful = userService.addUser(nouvelID, nomSaisi, prenomSaisi, nouveauMDP, sportFavori, visibilite);
             
             if (successful) {
                 JOptionPane.showMessageDialog(this, 
@@ -169,6 +223,14 @@ public class CreateAccount extends javax.swing.JFrame {
         
     }//GEN-LAST:event_selectFavoriteSportActionPerformed
 
+    private void FirstNameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstNameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FirstNameInputActionPerformed
+
+    private void PublicInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublicInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PublicInputActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -195,11 +257,24 @@ public class CreateAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField FirstNameInput;
     private javax.swing.JTextField IdInput;
+    private javax.swing.JRadioButton PrivateInput;
+    private javax.swing.JRadioButton PublicInput;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
+    private javax.swing.ButtonGroup buttonGroup7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField nameInput;
     private javax.swing.JPasswordField passwordInput;
     private javax.swing.JComboBox<String> selectFavoriteSport;
