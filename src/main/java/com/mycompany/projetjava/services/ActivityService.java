@@ -55,15 +55,19 @@ public class ActivityService {
         return types;
     }
     
-    public ArrayList<Activity> getAllUserActivities() throws SQLException {
+    public ArrayList<Activity> getAllUserActivities(boolean others) throws SQLException {
         ArrayList<Activity> activities = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()){
             String request = "SELECT a.id, a.title, a.description, at.id AS type_id, at.name AS type_name, a.datetime, a.duration "
                     + "FROM projetjava.activities a "
-                    + "JOIN activity_types AS at ON a.type_id = at.id "
-                    + "WHERE a.user_id = ? "
-                    + "ORDER BY a.datetime DESC";
-;
+                    + "JOIN activity_types AS at ON a.type_id = at.id ";
+            if(others){
+                request += "WHERE a.user_id != ? ";
+            } else{
+                request += "WHERE a.user_id = ? ";
+            }
+            request += "ORDER BY a.datetime DESC";
+            
             PreparedStatement statement = connection.prepareStatement(request);
             statement.setInt(1, UserSession.getInstance().getId());
             ResultSet rs = statement.executeQuery();

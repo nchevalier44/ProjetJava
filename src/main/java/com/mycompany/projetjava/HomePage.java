@@ -6,6 +6,7 @@ import com.mycompany.projetjava.services.UserService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /*
@@ -27,16 +28,79 @@ public class HomePage extends javax.swing.JFrame {
      */
     public HomePage() {
         initComponents();
-        fillActivitiesList();
+        refreshActivities();
     }
     
-    private void fillActivitiesList(){
+    public void refreshActivities(){
+        fillFluxTab();
+        fillMyActivitiesTab(); 
+    }
+    
+    private void fillFluxTab() {
+        javax.swing.JPanel container = new javax.swing.JPanel();
+        container.setLayout(new javax.swing.BoxLayout(container, javax.swing.BoxLayout.Y_AXIS));
+
+        container.setBackground(new java.awt.Color(43, 45, 48)); 
+
+        container.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(0, 15)));
+
+        ArrayList<ActivityCard> cards = getActivityCards(true);
+        if (!cards.isEmpty()) {
+            for (ActivityCard card : cards) {
+                container.add(card);
+                container.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(0, 15)));
+            }
+        } else {
+            JLabel empty = new JLabel("Aucune activité n'a été trouvée");
+            empty.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+            container.add(empty);
+        }
+
+        container.add(javax.swing.Box.createVerticalGlue());
+
+        fluxTab.setViewportView(container);
+        fluxTab.getVerticalScrollBar().setUnitIncrement(16);
+    }
+
+    private void fillMyActivitiesTab() {
+        javax.swing.JPanel container = new javax.swing.JPanel();
+        container.setLayout(new javax.swing.BoxLayout(container, javax.swing.BoxLayout.Y_AXIS));
+
+        container.setBackground(new java.awt.Color(43, 45, 48)); 
+
+        container.add(createAddActivityButtonPanel());
+
+        container.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(0, 15)));
+
+        ArrayList<ActivityCard> cards = getActivityCards(false);
+        if (!cards.isEmpty()) {
+            for (ActivityCard card : cards) {
+                container.add(card);
+                container.add(javax.swing.Box.createRigidArea(new java.awt.Dimension(0, 15)));
+            }
+        } else {
+            JLabel empty = new JLabel("Aucune activité n'a été trouvée");
+            empty.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+            container.add(empty);
+        }
+
+        container.add(javax.swing.Box.createVerticalGlue());
+
+        myActivitiesTab.setViewportView(container);
+        myActivitiesTab.getVerticalScrollBar().setUnitIncrement(16);
+    }
+        
+    private ArrayList<ActivityCard> getActivityCards(boolean others){
         ActivityService as = new ActivityService();
+        ArrayList<ActivityCard> cards = new ArrayList();
         try{
-            ArrayList<Activity> activities = as.getAllUserActivities();
-            DefaultListModel<Activity> listModel = new DefaultListModel<>();
-            listModel.addAll(activities);
-            activitiesList.setModel(listModel);
+            ArrayList<Activity> activities = as.getAllUserActivities(others);   
+
+            for(Activity a : activities){
+                ActivityCard c = new ActivityCard();
+                c.setActivity(a);
+                cards.add(c);
+            }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(this, 
                 "Error while loading your activities!",
@@ -44,7 +108,44 @@ public class HomePage extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
             );
         }
+        return cards;
     }
+    
+    private javax.swing.JPanel createAddActivityButtonPanel() {
+        javax.swing.JPanel topPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        topPanel.setBackground(new java.awt.Color(43, 45, 48)); 
+        topPanel.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 70)); 
+
+        javax.swing.JButton btnAdd = new javax.swing.JButton("Ajouter une nouvelle activité");
+
+        try {
+            javax.swing.ImageIcon iconPlus = new javax.swing.ImageIcon(getClass().getResource("/new_icon.png"));
+            btnAdd.setIcon(iconPlus);
+            btnAdd.setIconTextGap(12);
+        } catch (Exception e) {
+            System.out.println("Icône introuvable : vérifiez le chemin du fichier.");
+        }
+
+        btnAdd.setBackground(new java.awt.Color(0, 120, 215)); 
+        btnAdd.setForeground(java.awt.Color.WHITE);
+        btnAdd.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 15));
+        btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdd.setFocusPainted(false);
+        btnAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 24, 12, 24));
+
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddActivityDialog dialog = new AddActivityDialog(HomePage.this, true);
+                dialog.setVisible(true);
+                refreshActivities();
+            }
+        });
+
+        topPanel.add(btnAdd);
+    
+        return topPanel;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,128 +156,33 @@ public class HomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        activitiesList = new javax.swing.JList<>();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        deleteActivityButton = new javax.swing.JButton();
-        addActivityButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        fluxTab = new javax.swing.JScrollPane();
+        myActivitiesTab = new javax.swing.JScrollPane();
+        accountTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        activitiesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(activitiesList);
+        jTabbedPane1.addTab("Flux", fluxTab);
+        jTabbedPane1.addTab("Mes activités", myActivitiesTab);
 
-        deleteActivityButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        deleteActivityButton.setText("Delete");
-        deleteActivityButton.addActionListener(this::deleteActivityButtonActionPerformed);
-
-        addActivityButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        addActivityButton.setText("Add");
-        addActivityButton.addActionListener(this::addActivityButtonActionPerformed);
-
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton3.setText("See more informations");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
-
-        jLayeredPane1.setLayer(deleteActivityButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(addActivityButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jButton3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
-        jLayeredPane1.setLayout(jLayeredPane1Layout);
-        jLayeredPane1Layout.setHorizontalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(deleteActivityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(addActivityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)))
-                .addContainerGap())
+        javax.swing.GroupLayout accountTabLayout = new javax.swing.GroupLayout(accountTab);
+        accountTab.setLayout(accountTabLayout);
+        accountTabLayout.setHorizontalGroup(
+            accountTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 913, Short.MAX_VALUE)
         );
-        jLayeredPane1Layout.setVerticalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(addActivityButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(deleteActivityButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(117, 117, 117))
+        accountTabLayout.setVerticalGroup(
+            accountTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 265, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel1.setText("Activities");
+        jTabbedPane1.addTab("Mon compte", accountTab);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(110, 110, 110))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(315, 315, 315))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel1)
-                        .addGap(61, 61, 61)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
-        );
+        getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void deleteActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActivityButtonActionPerformed
-        Activity activity = activitiesList.getSelectedValue();
-        if(activity == null) return;
-        int choice = JOptionPane.showConfirmDialog(this, "Are you sure that you want to delete the following activity: " + activity.getTitle());
-        if(choice == JOptionPane.YES_OPTION){
-            ActivityService as = new ActivityService();
-            try{
-                as.delete(activity);
-                fillActivitiesList();
-            } catch(SQLException e){
-                JOptionPane.showMessageDialog(this, 
-                    "Error while deleting the activity!",
-                    "Database Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
-            }
-        }
-       
-    }//GEN-LAST:event_deleteActivityButtonActionPerformed
-
-    private void addActivityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityButtonActionPerformed
-        AddActivityDialog dialog = new AddActivityDialog(this, true);
-        dialog.setVisible(true);
-        fillActivitiesList();
-    }//GEN-LAST:event_addActivityButtonActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,12 +210,9 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<Activity> activitiesList;
-    private javax.swing.JButton addActivityButton;
-    private javax.swing.JButton deleteActivityButton;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel accountTab;
+    private javax.swing.JScrollPane fluxTab;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane myActivitiesTab;
     // End of variables declaration//GEN-END:variables
 }
