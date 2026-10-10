@@ -4,6 +4,7 @@ import com.mycompany.projetjava.DBConnection;
 import com.mycompany.projetjava.UserSession;
 import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.models.ActivityType;
+import com.mycompany.projetjava.models.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,8 @@ public class ActivityService {
         }
     }
     
-    public boolean add(Activity activity) throws SQLException {
+    public boolean add(Activity activity) throws SQLException, Exception {
+        if(activity.getId() != -1) throw new Exception("L'activité à ajouter existe déjà !");
         try (Connection connection = DBConnection.getConnection()){
             String requete = "INSERT INTO activities (title, description, type_id, datetime, duration, user_id) VALUES (?, ? ,? ,? ,? ,?)";
             PreparedStatement statement = connection.prepareStatement(requete);
@@ -34,6 +36,25 @@ public class ActivityService {
             statement.setObject(4, activity.getDateTime());
             statement.setInt(5, activity.getDuration());
             statement.setInt(6, UserSession.getInstance().getId());
+            int modifiedLines = statement.executeUpdate();
+            return modifiedLines > 0;
+        }
+    }
+    
+    public boolean update(Activity activity) throws SQLException, Exception {
+        if(activity.getId() == -1) throw new Exception("L'activité modifié n'existe pas !");
+        
+        try (Connection connection = DBConnection.getConnection()){
+            String requete = "UPDATE activities "
+                    + "SET title = ?, description = ?, type_id = ?, datetime = ?, duration = ? "
+                    + "WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(requete);
+            statement.setString(1, activity.getTitle());
+            statement.setString(2, activity.getDescription());
+            statement.setInt(3, activity.getType().getId());
+            statement.setObject(4, activity.getDateTime());
+            statement.setInt(5, activity.getDuration());
+            statement.setInt(6, activity.getId());
             int modifiedLines = statement.executeUpdate();
             return modifiedLines > 0;
         }
@@ -55,12 +76,13 @@ public class ActivityService {
         return types;
     }
     
-    public ArrayList<Activity> getAllUserActivities(boolean others) throws SQLException {
+    public ArrayList<Activity> getAllActivities(boolean others) throws SQLException {
         ArrayList<Activity> activities = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()){
-            String request = "SELECT a.id, a.title, a.description, at.id AS type_id, at.name AS type_name, a.datetime, a.duration "
+            String request = "SELECT a.id, a.title, a.description, at.id AS type_id, at.name AS type_name, a.datetime, a.duration, a.user_id, u.name, u.surname "
                     + "FROM projetjava.activities a "
-                    + "JOIN activity_types AS at ON a.type_id = at.id ";
+                    + "JOIN activity_types AS at ON a.type_id = at.id "
+                    + "JOIN users AS u ON a.user_id = u.id ";
             if(others){
                 request += "WHERE a.user_id != ? ";
             } else{
@@ -78,7 +100,9 @@ public class ActivityService {
                 ActivityType type = new ActivityType(rs.getInt("type_id"), rs.getString("type_name"));
                 LocalDateTime datetime = rs.getObject("datetime", LocalDateTime.class);
                 int duration = rs.getInt("duration");
-                Activity activity = new Activity(id, title, description, type, datetime, duration);
+                User user = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("surname"));
+                
+                Activity activity = new Activity(id, title, description, type, datetime, duration, user);
                 activities.add(activity);
             }
         }

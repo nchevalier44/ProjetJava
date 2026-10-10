@@ -9,35 +9,81 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class AddActivityDialog extends javax.swing.JDialog {
+public class ActivityDialog extends javax.swing.JDialog {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddActivityDialog.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ActivityDialog.class.getName());
     
     private DateTimePicker dateTimePicker;
+    Activity activity_edit;
     
     /**
      * Creates new form AddActivityDialog
      */
-    public AddActivityDialog(java.awt.Frame parent, boolean modal) {
+    public ActivityDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        titleLabel.setText("Ajouter une activité");
+            
         initDateTimePicker();
         fillTypeSelect();
         fillTitleLabel();
+        
+    }
+    
+    public ActivityDialog(java.awt.Frame parent, boolean modal, Activity activity){
+        super(parent, modal);
+        initComponents();
+        
+        this.activity_edit = activity;
+        
+        titleLabel.setText("Modifier une activité");
+        initDateTimePicker();
+        fillTitleLabel();
+        fillDescription();
+        fillTypeSelect();
+        fillDuration();
+    }
+    
+    private void fillDuration(){
+        if(activity_edit != null){
+            int duration = activity_edit.getDuration();
+            int hours = duration / 3600;
+            int minutes = (duration % 3600) / 60;
+            int seconds = duration % 60;
+            
+            hoursInput.setValue(hours);
+            minutesInput.setValue(minutes);
+            secondsInput.setValue(seconds);
+        }
+    }
+    
+    private void fillDescription(){
+        if(activity_edit != null){
+            descriptionInput.setText(activity_edit.getDescription());
+        }
     }
     
     private void fillTitleLabel(){
-        LocalDateTime currentDateTime = dateTimePicker.getDateTimePermissive();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedDateTime = currentDateTime.format(formatter);
-        titleInput.setText("Activity - " + formattedDateTime);
+        if(activity_edit == null){
+            LocalDateTime currentDateTime = dateTimePicker.getDateTimePermissive();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            String formattedDateTime = currentDateTime.format(formatter);
+            titleInput.setText("Activity - " + formattedDateTime);
+        }
+        else {
+            titleInput.setText(activity_edit.getTitle());
+        }
     }
     
     private void initDateTimePicker(){
         this.dateTimePicker = new DateTimePicker();
-        dateTimePicker.datePicker.setDateToToday(); 
-        dateTimePicker.timePicker.setTimeToNow();
+        if(activity_edit == null){
+            dateTimePicker.datePicker.setDateToToday(); 
+            dateTimePicker.timePicker.setTimeToNow();
+        } else{
+            dateTimePicker.setDateTimeStrict(activity_edit.getDateTime());
+        }
+        
         panelDateTime.add(dateTimePicker);
         panelDateTime.revalidate();
         panelDateTime.repaint();
@@ -49,6 +95,9 @@ public class AddActivityDialog extends javax.swing.JDialog {
             ArrayList<ActivityType> types = s.getAllActivityTypes();
             for(ActivityType type : types){
                 typeSelect.addItem(type);
+                if(activity_edit != null && activity_edit.getType().getName().equalsIgnoreCase(type.getName())){
+                    typeSelect.setSelectedItem(type);
+                }
             }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(this, 
@@ -86,24 +135,24 @@ public class AddActivityDialog extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Title");
+        jLabel1.setText("Titre");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Description (optional)");
+        jLabel2.setText("Description (facultatif)");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Type");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Date and time");
+        jLabel4.setText("Date et heure");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Duration");
+        jLabel6.setText("Durée");
 
         titleInput.addActionListener(this::titleInputActionPerformed);
 
@@ -125,14 +174,14 @@ public class AddActivityDialog extends javax.swing.JDialog {
 
         jLabel8.setText("Seconds");
 
-        confirmButton.setText("Confirm");
+        confirmButton.setText("Confirmer");
         confirmButton.addActionListener(this::confirmButtonActionPerformed);
 
-        cancelButton.setText("Cancel");
+        cancelButton.setText("Annuler");
         cancelButton.addActionListener(this::cancelButtonActionPerformed);
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel9.setText("Add an activity");
+        titleLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        titleLabel.setText("Add an activity");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,14 +233,14 @@ public class AddActivityDialog extends javax.swing.JDialog {
                                         .addGap(121, 121, 121))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
-                        .addComponent(jLabel9)))
-                .addContainerGap(109, Short.MAX_VALUE))
+                        .addComponent(titleLabel)))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(jLabel9)
+                .addComponent(titleLabel)
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -246,18 +295,37 @@ public class AddActivityDialog extends javax.swing.JDialog {
         int minutes = (int) minutesInput.getValue();
         int seconds = (int) secondsInput.getValue();
         int duration = hours * 3600 + minutes * 60 + seconds;
+
+        if(activity_edit != null){
+            activity_edit.setTitle(title);
+            activity_edit.setDescription(description);
+            activity_edit.setType(type);
+            activity_edit.setDateTime(datetime);
+            activity_edit.setDuration(duration);
+        }
         
-        Activity activity = new Activity(title, description, type, datetime, duration);
+        
+        Activity activity = new Activity(title, description, type, datetime, duration, UserSession.getInstance().getUser());
         ActivityService as = new ActivityService();
         
         try{
-            as.add(activity);
+            if(activity_edit == null){
+                as.add(activity);
+            } else{
+                as.update(activity_edit);
+            }
+            
         } catch(SQLException e){
             JOptionPane.showMessageDialog(this, 
-                "Error while adding new Activity!",
-                "Database Error",
+                "Une erreur est survenu en essayant de créer la nouvelle activité : " + title,
+                "Erreur : Base de données",
                 JOptionPane.ERROR_MESSAGE
             );
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Erreur : Gestion des activités",
+                    JOptionPane.ERROR_MESSAGE);
         }
         this.dispose();
         
@@ -293,7 +361,7 @@ public class AddActivityDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                AddActivityDialog dialog = new AddActivityDialog(new javax.swing.JFrame(), true);
+                ActivityDialog dialog = new ActivityDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -318,12 +386,12 @@ public class AddActivityDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner minutesInput;
     private javax.swing.JPanel panelDateTime;
     private javax.swing.JSpinner secondsInput;
     private javax.swing.JTextField titleInput;
+    private javax.swing.JLabel titleLabel;
     private javax.swing.JComboBox<ActivityType> typeSelect;
     // End of variables declaration//GEN-END:variables
 }

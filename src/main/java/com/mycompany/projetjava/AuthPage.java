@@ -64,7 +64,6 @@ public class AuthPage extends javax.swing.JFrame {
 
         createAccountButton.setForeground(new java.awt.Color(100, 180, 255));
         createAccountButton.setText("Créer un Compte");
-        createAccountButton.setPreferredSize(null);
         createAccountButton.addActionListener(this::createAccountButtonActionPerformed);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N

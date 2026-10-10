@@ -33,4 +33,8 @@ public class UserSession {
     public void logout() {
         this.user = null;
     }
+    
+    public User getUser(){
+        return this.user;
+    }
 }

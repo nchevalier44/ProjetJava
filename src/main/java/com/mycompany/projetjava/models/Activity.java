@@ -12,17 +12,19 @@ public class Activity {
     private ActivityType type;
     private LocalDateTime datetime;
     private int duration;
+    private User user;
     
-    public Activity(String title, String description, ActivityType type, LocalDateTime datetime, int duration){
+    public Activity(String title, String description, ActivityType type, LocalDateTime datetime, int duration, User user){
         this.title = title;
         this.description = description;
         this.type = type;
         this.datetime = datetime;
         this.duration = duration;
+        this.user = user;
     }
     
-    public Activity(int id, String title, String description, ActivityType type, LocalDateTime datetime, int duration){
-        this(title, description, type, datetime, duration);
+    public Activity(int id, String title, String description, ActivityType type, LocalDateTime datetime, int duration, User user){
+        this(title, description, type, datetime, duration, user);
         this.id = id;
     }
     
@@ -48,6 +50,30 @@ public class Activity {
     
     public int getDuration(){
         return this.duration;
+    }
+    
+    public User getUser(){
+        return this.user;
+    }
+    
+    public void setTitle(String title){
+        this.title = title;
+    }
+    
+    public void setDescription(String description){
+        this.description = description;
+    }
+    
+    public void setType(ActivityType type){
+        this.type = type;
+    }
+    
+    public void setDateTime(LocalDateTime datetime){
+        this.datetime = datetime;
+    }
+    
+    public void setDuration(int duration){
+        this.duration = duration;
     }
     
     @Override

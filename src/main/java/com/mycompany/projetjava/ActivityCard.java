@@ -20,10 +20,16 @@ public class ActivityCard extends javax.swing.JPanel {
 
     /**
      * Creates new form ActivityCard
+     * @param with_icons
      */
-    public ActivityCard() {
+    public ActivityCard(boolean with_icons) {
         initComponents();
-
+        
+        if(!with_icons){
+            editButton.setVisible(false);
+            deleteButton.setVisible(false);
+        }
+        
         java.awt.Color fondCarte = new java.awt.Color(60, 63, 65);
         java.awt.Color bleuAccent = new java.awt.Color(0, 120, 215);
         java.awt.Color textePrincipal = java.awt.Color.WHITE;
@@ -60,6 +66,7 @@ public class ActivityCard extends javax.swing.JPanel {
         setDate(activity.getDateTime());
         setDuration(activity.getDuration());
         setType(activity.getType().toString());
+        setUserName(activity.getUser().getName());
     }
     
     public void setTitle(String title){
@@ -79,12 +86,18 @@ public class ActivityCard extends javax.swing.JPanel {
         int hours = duration / 3600;
         int minutes = (duration % 3600) / 60;
         int seconds = duration % 60;
-
-        if (hours > 0) {
-            this.duration = hours + "h " + minutes + "m " + seconds + "s";
-        } else {
-            this.duration = minutes + "m " + seconds + "s";
+        
+        this.duration = "";
+        if(hours > 0){
+            this.duration += hours + "h ";
         }
+        if(minutes > 0){
+            this.duration += minutes + "m ";
+        }
+        if(seconds > 0){
+            this.duration += seconds + "ss";
+        }
+        
         updateTypeDurationLabel();
     }
     
@@ -98,8 +111,9 @@ public class ActivityCard extends javax.swing.JPanel {
         dateLabel.setText(formatedDate);
     }
     
-    
-    
+    public void setUserName(String name){
+        nameLabel.setText(name);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,6 +155,7 @@ public class ActivityCard extends javax.swing.JPanel {
         deleteButton.addActionListener(this::deleteButtonActionPerformed);
 
         editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edit_icon.png"))); // NOI18N
+        editButton.addActionListener(this::editButtonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -198,13 +213,22 @@ public class ActivityCard extends javax.swing.JPanel {
                 }
             } catch(SQLException e){
                 JOptionPane.showMessageDialog(this, 
-                    "Error while deleting the activity!",
-                    "Database Error",
+                    "Une erreur est survenu en essayant de supprimer l'activité : " + activity.getTitle(),
+                    "Erreur : Base de données",
                     JOptionPane.ERROR_MESSAGE
                 );
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (parentWindow instanceof HomePage home) {
+            ActivityDialog dialog = new ActivityDialog(home, true, activity);
+            dialog.setVisible(true);
+            home.refreshActivities();
+        }
+    }//GEN-LAST:event_editButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

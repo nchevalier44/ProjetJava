@@ -160,9 +160,6 @@
           <Color blue="ff" green="b4" red="64" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cr&#xe9;er un Compte"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="null"/>
-        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createAccountButtonActionPerformed"/>

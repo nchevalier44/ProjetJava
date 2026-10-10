@@ -29,6 +29,7 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage() {
         initComponents();
         refreshActivities();
+        this.setSize(800, 600);
     }
     
     public void refreshActivities(){
@@ -94,17 +95,17 @@ public class HomePage extends javax.swing.JFrame {
         ActivityService as = new ActivityService();
         ArrayList<ActivityCard> cards = new ArrayList();
         try{
-            ArrayList<Activity> activities = as.getAllUserActivities(others);   
+            ArrayList<Activity> activities = as.getAllActivities(others);   
 
             for(Activity a : activities){
-                ActivityCard c = new ActivityCard();
+                ActivityCard c = new ActivityCard(!others);
                 c.setActivity(a);
                 cards.add(c);
             }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(this, 
-                "Error while loading your activities!",
-                "Database Error",
+                "Une erreur est survenue durant le chargement des activités !",
+                "Erreur : Base de donnée",
                 JOptionPane.ERROR_MESSAGE
             );
         }
@@ -135,7 +136,7 @@ public class HomePage extends javax.swing.JFrame {
 
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddActivityDialog dialog = new AddActivityDialog(HomePage.this, true);
+                ActivityDialog dialog = new ActivityDialog(HomePage.this, true);
                 dialog.setVisible(true);
                 refreshActivities();
             }

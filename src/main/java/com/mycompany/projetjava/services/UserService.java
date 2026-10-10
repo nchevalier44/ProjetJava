@@ -19,7 +19,8 @@ public class UserService {
             if(rs.next()){
                 int ID = rs.getInt("id");
                 String name = rs.getString("name");
-                return new User(ID, name);
+                String surname = rs.getString("surname");
+                return new User(ID, name, surname);
             }
             return null;
         }

@@ -122,6 +122,9 @@
           <Image iconType="3" name="/edit_icon.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
