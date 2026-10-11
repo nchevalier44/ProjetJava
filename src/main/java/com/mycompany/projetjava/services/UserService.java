@@ -9,7 +9,7 @@ import com.mycompany.projetjava.models.User;
 
 
 public class UserService {
-    public User getUser(String id, String password) throws SQLException {
+public User getUser(String id, String password) throws SQLException {
         try (Connection connection = DBConnection.getConnection()){
             String request = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(request);
@@ -20,16 +20,19 @@ public class UserService {
                 int ID = rs.getInt("id");
                 String name = rs.getString("name");
                 String surname = rs.getString("surname");
-                return new User(ID, name, surname);
+
+                User u = new User(ID, name, surname);
+                u.setVille(rs.getString("ville")); // <-- On stocke la ville lue depuis la BDD
+                return u;
             }
             return null;
         }
     }
     
-    public boolean addUser(String username, String name, String surname, String password, String sport_favori, boolean visibilite) throws SQLException, java.sql.SQLIntegrityConstraintViolationException{
+    public boolean addUser(String username, String name, String surname, String password, String sport_favori, boolean visibilite, String ville) throws SQLException, java.sql.SQLIntegrityConstraintViolationException{
         
         try (Connection connection = DBConnection.getConnection()){
-            String request = "INSERT INTO users (username, name, surname, password, sport_favori, visibilite) VALUES (?, ?, ?, ?, ?, ?)";
+            String request = "INSERT INTO users (username, name, surname, password, sport_favori, visibilite, ville) VALUES (?, ?, ?, ?, ?, ?,?)";
             PreparedStatement statement = connection.prepareStatement(request);
             
             statement.setString(1, username);
@@ -37,7 +40,8 @@ public class UserService {
             statement.setString(3, surname);  
             statement.setString(4, password); 
             statement.setString(5, sport_favori); 
-            statement.setBoolean(6, visibilite); // NOUVEAU : On envoie un boolean à la BDD
+            statement.setBoolean(6, visibilite); 
+            statement.setString(7, ville);
             
             int modifiedLines = statement.executeUpdate();
             return modifiedLines > 0;

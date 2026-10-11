@@ -51,9 +51,10 @@ public class CreateAccount extends javax.swing.JFrame {
         PrivateInput = new javax.swing.JRadioButton();
         PublicInput = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        villeInput = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(350, 550));
         setResizable(false);
 
         jLabel1.setText("Identifiant");
@@ -91,6 +92,8 @@ public class CreateAccount extends javax.swing.JFrame {
         jLabel7.setText("INSCRIPTION");
         jLabel7.setToolTipText("");
 
+        jLabel8.setText("Ville");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,7 +117,9 @@ public class CreateAccount extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addComponent(PublicInput, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(validationButton)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(villeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -148,9 +153,13 @@ public class CreateAccount extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(selectFavoriteSport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(villeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(validationButton)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -164,6 +173,7 @@ public class CreateAccount extends javax.swing.JFrame {
         String nouveauMDP = new String(passwordInput.getPassword());
         String prenomSaisi = FirstNameInput.getText();
         String sportFavori = (String) selectFavoriteSport.getSelectedItem();
+        String ville = villeInput.getText();
         
         boolean visibilite = false; 
         if (PublicInput.isSelected()) {
@@ -183,7 +193,7 @@ public class CreateAccount extends javax.swing.JFrame {
         UserService userService = new UserService();
         
         try {
-            boolean successful = userService.addUser(nouvelID, nomSaisi, prenomSaisi, nouveauMDP, sportFavori, visibilite);
+            boolean successful = userService.addUser(nouvelID, nomSaisi, prenomSaisi, nouveauMDP, sportFavori, visibilite,ville);
             
             if (successful) {
                 JOptionPane.showMessageDialog(this, 
@@ -271,9 +281,11 @@ public class CreateAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nameInput;
     private javax.swing.JPasswordField passwordInput;
     private javax.swing.JComboBox<String> selectFavoriteSport;
     private javax.swing.JButton validationButton;
+    private javax.swing.JTextField villeInput;
     // End of variables declaration//GEN-END:variables
 }

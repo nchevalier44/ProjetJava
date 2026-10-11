@@ -83,15 +83,26 @@ public class ActivityService {
                     + "FROM projetjava.activities a "
                     + "JOIN activity_types AS at ON a.type_id = at.id "
                     + "JOIN users AS u ON a.user_id = u.id ";
-            if(others){
-                request += "WHERE a.user_id != ? ";
-            } else{
+            
+            if (others) {
+                // FLUX GÉNÉRAL :
+                // 1. Soit c'est mon activité (a.user_id = ?) -> je la vois toujours
+                // 2. Soit l'auteur est public (u.visibilite = 0 ou FALSE) -> je la vois
+                // -> Si l'auteur est privé (u.visibilite = 1), seuls lui la voit.
+                request += "WHERE (a.user_id = ? OR u.visibilite = 1) ";
+            } else {
+                // MES ACTIVITÉS :
+                // Uniquement les miennes
                 request += "WHERE a.user_id = ? ";
             }
+            
             request += "ORDER BY a.datetime DESC";
             
             PreparedStatement statement = connection.prepareStatement(request);
+            
+            // On injecte mon ID utilisateur dans les deux cas
             statement.setInt(1, UserSession.getInstance().getId());
+            
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 int id = rs.getInt("id");
@@ -107,5 +118,56 @@ public class ActivityService {
             }
         }
         return activities;
+    }
+    public class WeeklySummary {
+        public int count = 0;
+        public int totalDurationSeconds = 0;
+        public String topSport = "Aucun";
+    }
+
+    public WeeklySummary getWeeklySummary() throws SQLException {
+        WeeklySummary summary = new WeeklySummary();
+        int userId = UserSession.getInstance().getId();
+
+        // 1. Récupérer le nombre d'activités et la durée totale sur la semaine courante
+        String sqlStats = "SELECT COUNT(*) AS total_count, COALESCE(SUM(duration), 0) AS total_duration " +
+                          "FROM projetjava.activities " +
+                          "WHERE user_id = ? " +
+                          "AND YEARWEEK(datetime, 1) = YEARWEEK(CURDATE(), 1)";
+
+        // 2. Récupérer le sport le plus pratiqué sur la semaine courante
+        String sqlTopSport = "SELECT t.name " +
+                             "FROM projetjava.activities a " +
+                             "JOIN projetjava.activity_types t ON a.type_id = t.id " +
+                             "WHERE a.user_id = ? " +
+                             "AND YEARWEEK(a.datetime, 1) = YEARWEEK(CURDATE(), 1) " +
+                             "GROUP BY t.name " +
+                             "ORDER BY COUNT(*) DESC " +
+                             "LIMIT 1";
+
+        try (Connection connection = DBConnection.getConnection()) {
+            // Stats globales
+            try (PreparedStatement ps = connection.prepareStatement(sqlStats)) {
+                ps.setInt(1, userId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        summary.count = rs.getInt("total_count");
+                        summary.totalDurationSeconds = rs.getInt("total_duration");
+                    }
+                }
+            }
+
+            // Sport favori
+            try (PreparedStatement ps = connection.prepareStatement(sqlTopSport)) {
+                ps.setInt(1, userId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        summary.topSport = rs.getString("name");
+                    }
+                }
+            }
+        }
+
+        return summary;
     }
 }

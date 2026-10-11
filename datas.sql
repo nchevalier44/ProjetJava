@@ -28,3 +28,11 @@ INSERT INTO activities (title, description, type_id, datetime, duration, user_id
 ('Promenade du soir', 'Marche digestive dans le quartier.', 5, '2023-10-21 20:00:00', 1800, 5),
 ('Rando en montagne', 'Ascension du sommet local, superbe vue à l''arrivée.', 6, '2023-10-14 08:00:00', 14400, 6),
 ('Randonnée forestière', 'Découverte de nouveaux sentiers avec un groupe d''amis.', 6, '2023-10-22 09:00:00', 10800, 6);
+
+UPDATE users SET ville = 'Nantes' WHERE username = 'martin1234';
+UPDATE users SET ville = 'Rennes' WHERE username = 'sophie1234';
+UPDATE users SET ville = 'Angers' WHERE username = 'lucas1234';
+UPDATE users SET ville = 'Saint-Nazaire' WHERE username = 'emma1234';
+UPDATE users SET ville = 'Vannes' WHERE username = 'maxime1234';
+UPDATE users SET ville = 'Lorient' WHERE username = 'clara1234';
+UPDATE users SET ville = 'Guérande' WHERE username = '1';
