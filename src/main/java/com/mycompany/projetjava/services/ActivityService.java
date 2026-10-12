@@ -5,6 +5,7 @@ import com.mycompany.projetjava.UserSession;
 import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.models.ActivityType;
 import com.mycompany.projetjava.models.User;
+import com.mycompany.projetjava.models.WeeklySummary;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,9 +15,14 @@ import java.util.ArrayList;
 
 public class ActivityService {
     
+    /**
+     * Delete the activity given in parameter in the database
+     * @param activity
+     * @throws SQLException 
+     */
     public void delete(Activity activity) throws SQLException {
         try (Connection connection = DBConnection.getConnection()){
-            if(activity.getId() != -1){
+            if(activity.getId() != -1){ // Si l'id est -1, cela signifie qu'elle n'existe pas dans la base de donnée
                 String requete = "DELETE FROM projetjava.activities WHERE id=?";
                 PreparedStatement statement = connection.prepareStatement(requete);
                 statement.setInt(1, activity.getId());
@@ -25,6 +31,13 @@ public class ActivityService {
         }
     }
     
+    /**
+     * Add the activity given in parameter in the database
+     * @param activity
+     * @return
+     * @throws SQLException
+     * @throws Exception 
+     */
     public boolean add(Activity activity) throws SQLException, Exception {
         if(activity.getId() != -1) throw new Exception("L'activité à ajouter existe déjà !");
         try (Connection connection = DBConnection.getConnection()){
@@ -41,6 +54,13 @@ public class ActivityService {
         }
     }
     
+    /**
+     * Update the activity given in parameter
+     * @param activity
+     * @return
+     * @throws SQLException
+     * @throws Exception 
+     */
     public boolean update(Activity activity) throws SQLException, Exception {
         if(activity.getId() == -1) throw new Exception("L'activité modifié n'existe pas !");
         
@@ -60,6 +80,11 @@ public class ActivityService {
         }
     }
     
+    /**
+     * Get all activity types
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<ActivityType> getAllActivityTypes() throws SQLException {
         ArrayList<ActivityType> types = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()){
@@ -76,19 +101,30 @@ public class ActivityService {
         return types;
     }
     
+    /**
+     * Get all users activities
+     * @param others
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<Activity> getAllActivities(boolean others) throws SQLException {
         ArrayList<Activity> activities = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection()){
-            String request = "SELECT a.id, a.title, a.description, at.id AS type_id, at.name AS type_name, a.datetime, a.duration, a.user_id, u.name, u.surname "
+            // 1. AJOUT de u.sport_favori et u.visibilite dans le SELECT
+            String request = "SELECT a.id, a.title, a.description, at.id AS type_id, at.name AS type_name, a.datetime, a.duration, a.user_id, u.name, u.surname, u.ville, u.sport_favori, u.visibilite "
                     + "FROM projetjava.activities a "
                     + "JOIN activity_types AS at ON a.type_id = at.id "
                     + "JOIN users AS u ON a.user_id = u.id ";
             
             if (others) {
-               
+                // FLUX GÉNÉRAL :
+                // Soit c'est mon activité (a.user_id = ?) -> je la vois toujours
+                // Soit l'auteur est public (u.visibilite = 0 ou FALSE) -> je la vois
+                // -> Si l'auteur est privé (u.visibilite = 1), seuls lui la voit.
                 request += "WHERE (a.user_id = ? OR u.visibilite = 1) ";
             } else {
-                
+                // MES ACTIVITÉS :
+                // Uniquement les miennes
                 request += "WHERE a.user_id = ? ";
             }
             
@@ -107,7 +143,16 @@ public class ActivityService {
                 ActivityType type = new ActivityType(rs.getInt("type_id"), rs.getString("type_name"));
                 LocalDateTime datetime = rs.getObject("datetime", LocalDateTime.class);
                 int duration = rs.getInt("duration");
-                User user = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("surname"));
+                
+                // 2. UTILISATION DU NOUVEAU CONSTRUCTEUR (6 paramètres)
+                User user = new User(
+                    rs.getInt("user_id"), 
+                    rs.getString("name"), 
+                    rs.getString("surname"), 
+                    rs.getString("ville"),
+                    rs.getString("sport_favori"),
+                    rs.getBoolean("visibilite")
+                );
                 
                 Activity activity = new Activity(id, title, description, type, datetime, duration, user);
                 activities.add(activity);
@@ -115,23 +160,16 @@ public class ActivityService {
         }
         return activities;
     }
-    public class WeeklySummary {
-        public int count = 0;
-        public int totalDurationSeconds = 0;
-        public String topSport = "Aucun";
-    }
-
+    
     public WeeklySummary getWeeklySummary() throws SQLException {
         WeeklySummary summary = new WeeklySummary();
         int userId = UserSession.getInstance().getId();
 
-        
         String sqlStats = "SELECT COUNT(*) AS total_count, COALESCE(SUM(duration), 0) AS total_duration " +
                           "FROM projetjava.activities " +
                           "WHERE user_id = ? " +
                           "AND YEARWEEK(datetime, 1) = YEARWEEK(CURDATE(), 1)";
 
-       
         String sqlTopSport = "SELECT t.name " +
                              "FROM projetjava.activities a " +
                              "JOIN projetjava.activity_types t ON a.type_id = t.id " +
@@ -153,7 +191,7 @@ public class ActivityService {
                 }
             }
 
-           
+            // Sport favori
             try (PreparedStatement ps = connection.prepareStatement(sqlTopSport)) {
                 ps.setInt(1, userId);
                 try (ResultSet rs = ps.executeQuery()) {
