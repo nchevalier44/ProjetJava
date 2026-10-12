@@ -85,14 +85,10 @@ public class ActivityService {
                     + "JOIN users AS u ON a.user_id = u.id ";
             
             if (others) {
-                // FLUX GÉNÉRAL :
-                // 1. Soit c'est mon activité (a.user_id = ?) -> je la vois toujours
-                // 2. Soit l'auteur est public (u.visibilite = 0 ou FALSE) -> je la vois
-                // -> Si l'auteur est privé (u.visibilite = 1), seuls lui la voit.
+               
                 request += "WHERE (a.user_id = ? OR u.visibilite = 1) ";
             } else {
-                // MES ACTIVITÉS :
-                // Uniquement les miennes
+                
                 request += "WHERE a.user_id = ? ";
             }
             
@@ -129,13 +125,13 @@ public class ActivityService {
         WeeklySummary summary = new WeeklySummary();
         int userId = UserSession.getInstance().getId();
 
-        // 1. Récupérer le nombre d'activités et la durée totale sur la semaine courante
+        
         String sqlStats = "SELECT COUNT(*) AS total_count, COALESCE(SUM(duration), 0) AS total_duration " +
                           "FROM projetjava.activities " +
                           "WHERE user_id = ? " +
                           "AND YEARWEEK(datetime, 1) = YEARWEEK(CURDATE(), 1)";
 
-        // 2. Récupérer le sport le plus pratiqué sur la semaine courante
+       
         String sqlTopSport = "SELECT t.name " +
                              "FROM projetjava.activities a " +
                              "JOIN projetjava.activity_types t ON a.type_id = t.id " +
@@ -157,7 +153,7 @@ public class ActivityService {
                 }
             }
 
-            // Sport favori
+           
             try (PreparedStatement ps = connection.prepareStatement(sqlTopSport)) {
                 ps.setInt(1, userId);
                 try (ResultSet rs = ps.executeQuery()) {

@@ -45,7 +45,7 @@ public class SettingDialog extends JDialog {
         root.setBackground(new Color(43, 45, 48));
         root.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
 
-        // 1. Titre
+      
         JLabel lblTitle = new JLabel("Paramètres du profil");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lblTitle.setForeground(Color.WHITE);
@@ -54,7 +54,7 @@ public class SettingDialog extends JDialog {
 
         root.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // 2. Récupération des infos utilisateur actuelles
+        
         User user = UserSession.getInstance().getUser();
         int userId = (user != null) ? user.getId() : -1;
         String currentName = (user != null) ? user.getName() : "Utilisateur";
@@ -62,25 +62,22 @@ public class SettingDialog extends JDialog {
         String currentSport = fetchCurrentFavoriteSport(userId);
         boolean isPrivate = fetchCurrentVisibility(userId);
 
-        // 3. Formulaire (4 lignes x 2 colonnes)
+       
         JPanel form = new JPanel(new GridLayout(4, 2, 12, 14));
         form.setBackground(new Color(43, 45, 48));
         form.setMaximumSize(new Dimension(400, 150));
-
-        // Nom complet
+        
         JLabel lblNameTitle = new JLabel("Nom complet :");
         lblNameTitle.setForeground(new Color(180, 180, 180));
         JLabel lblNameVal = new JLabel(currentName);
         lblNameVal.setForeground(Color.WHITE);
         lblNameVal.setFont(new Font("Segoe UI", Font.BOLD, 13));
 
-        // Ville
         JLabel lblVilleTitle = new JLabel("Ville :");
         lblVilleTitle.setForeground(new Color(180, 180, 180));
         txtVille = new JTextField(currentVille);
         styleInputField(txtVille);
 
-        // Sport favori
         JLabel lblSportTitle = new JLabel("Sport favori :");
         lblSportTitle.setForeground(new Color(180, 180, 180));
         String[] sports = {"Course", "Cyclisme", "Natation", "Musculation", "Marche", "Autre"};
@@ -107,7 +104,7 @@ public class SettingDialog extends JDialog {
         form.add(txtNewPassword);
         root.add(form);
 
-        // Indication mot de passe
+       
         JLabel lblPwdHint = new JLabel("(Laisser vide pour conserver le mot de passe actuel)");
         lblPwdHint.setFont(new Font("Segoe UI", Font.ITALIC, 11));
         lblPwdHint.setForeground(new Color(140, 140, 140));
@@ -117,7 +114,7 @@ public class SettingDialog extends JDialog {
 
         root.add(Box.createRigidArea(new Dimension(0, 18)));
 
-        // 4. Case à cocher : Compte privé / public
+       
         chkPrivate = new JCheckBox("Compte public (rendre mes activités visibles aux autres :)");
         chkPrivate.setSelected(isPrivate);
         chkPrivate.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -129,7 +126,7 @@ public class SettingDialog extends JDialog {
 
         root.add(Box.createRigidArea(new Dimension(0, 22)));
 
-        // 5. Bouton Enregistrer
+   
         JButton btnSave = new JButton("Enregistrer les modifications");
         btnSave.setAlignmentX(CENTER_ALIGNMENT);
         btnSave.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
@@ -143,7 +140,6 @@ public class SettingDialog extends JDialog {
 
         root.add(Box.createRigidArea(new Dimension(0, 12)));
 
-        // 6. Bouton Déconnexion
         JButton btnLogout = new JButton("Se déconnecter");
         btnLogout.setAlignmentX(CENTER_ALIGNMENT);
         btnLogout.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
@@ -232,8 +228,6 @@ public class SettingDialog extends JDialog {
             }
 
             ps.executeUpdate();
-
-            // Mise à jour de la session
             user.setVille(newVille);
 
             JOptionPane.showMessageDialog(this, "Modifications enregistrées avec succès !");

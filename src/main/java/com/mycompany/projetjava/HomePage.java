@@ -47,7 +47,7 @@ public class HomePage extends javax.swing.JFrame {
         }
     });
 
-    // Écouteur pour recalculer la largeur si la fenêtre est redimensionnée
+    
     jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
         @Override
         public void componentResized(java.awt.event.ComponentEvent e) {
@@ -225,7 +225,7 @@ private javax.swing.JPanel createWeeklySummaryPanel() {
         summaryCard.setMaximumSize(new java.awt.Dimension(740, 75));
         summaryCard.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
 
-        // Valeurs par défaut si aucune donnée ou en cas d'erreur
+        
         int nbActivities = 0;
         String totalTime = "0 min";
         String favoriteSport = "Aucun";
@@ -242,7 +242,7 @@ private javax.swing.JPanel createWeeklySummaryPanel() {
             e.printStackTrace();
         }
 
-        // Ajout des blocs avec les vraies données
+       
         summaryCard.add(createStatBlock("Activités cette semaine", String.valueOf(nbActivities)));
         summaryCard.add(createStatBlock("Temps d'effort total", totalTime));
         summaryCard.add(createStatBlock("Discipline principale", favoriteSport));
@@ -266,13 +266,13 @@ private javax.swing.JPanel createWeeklySummaryPanel() {
         return block;
     }
 private void fillAccountTab() {
-        // 1. Définition du User-Agent requis par les serveurs OSM
+       
         System.setProperty("http.agent", "ProjetJavaSwingStudentApp/1.0 (contact: test@univ.fr)");
 
         accountTab.removeAll();
         accountTab.setLayout(new java.awt.BorderLayout());
 
-        // 2. Récupération de la ville et de ses coordonnées
+       
         com.mycompany.projetjava.models.User user = UserSession.getInstance().getUser();
         String nomVille = (user != null && user.getVille() != null) ? user.getVille() : "Nantes";
         GeoUtils.Coordinates coords = GeoUtils.getCoordinates(nomVille);
@@ -295,25 +295,25 @@ private void fillAccountTab() {
     tileFactory.setThreadPoolSize(8);
     mapViewer.setTileFactory(tileFactory);
 
-        // 4. Centrage sur la ville
+     
         GeoPosition center = new GeoPosition(coords.lat, coords.lon);
         mapViewer.setZoom(4);
         mapViewer.setAddressLocation(center);
 
-        // 5. Interactions souris (glisser-déposer + zoom molette)
+        
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);
         mapViewer.addMouseMotionListener(mia);
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
 
-        // 6. Intégration dans l'onglet
+        
         accountTab.add(mapViewer, java.awt.BorderLayout.CENTER);
         accountTab.revalidate();
         accountTab.repaint();
     }
 private java.awt.Image getMapImage(double lat, double lon, int width, int height) {
         try {
-            // Service de cartes statiques Wikimedia / OSM (fiable et direct)
+            
             String urlStr = "https://maps.wikimedia.org/img/osm-intl,13," 
                             + lat + "," + lon + "," 
                             + width + "x" + height + ".png";
@@ -321,7 +321,7 @@ private java.awt.Image getMapImage(double lat, double lon, int width, int height
             java.net.URL url = new java.net.URI(urlStr).toURL();
             java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
             
-            // Un User-Agent complet est obligatoire pour éviter le blocage HTTP 403
+            
             conn.setRequestProperty("User-Agent", "ProjetJavaSwingStudentApp/1.0 (contact: test@univ.fr)");
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);

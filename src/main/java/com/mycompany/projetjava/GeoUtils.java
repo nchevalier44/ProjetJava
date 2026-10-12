@@ -42,8 +42,8 @@ public class GeoUtils {
         if (ville != null && CITIES.containsKey(ville)) {
             return CITIES.get(ville);
         }
-        // Valeur par défaut si inconnue
-        return new Coordinates(47.2184, -1.5536);
+        
+        return new Coordinates(47.2184, -1.5536); //coordonnées de Nantes si inconnu
     }
 }
 
