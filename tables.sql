@@ -9,6 +9,7 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(50) NOT NULL,
     sport_favori VARCHAR(50),
+    ville VARCHAR(100),
     visibilite BOOLEAN NOT NULL,
     password VARCHAR(255) NOT NULL
 );

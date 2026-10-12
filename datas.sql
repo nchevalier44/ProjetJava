@@ -1,10 +1,10 @@
-INSERT INTO users (username, name, surname, sport_favori, visibilite, password) VALUES
-("martin1234", "Martin", "Dupont", "Course à pied", true, "martin1234"),
-("sophie1234", "Sophie", "Durand", "Natation", false, "sophie1234"),
-("lucas1234", "Lucas", "Lefevre", "Renforcement musculaire", true, "lucas1234"),
-("emma1234", "Emma", "Moreau", "Vélo", false, "emma1234"),
-("maxime1234", "Maxime", "Rousseau", "Marche", true, "maxime1234"),
-("clara1234", "Clara", "Garnier", "Randonnée", false, "clara1234");
+INSERT INTO users (username, name, surname, sport_favori, ville, visibilite, password) VALUES
+("martin1234", "Martin", "Dupont", "Course à pied", "Nantes", true, "martin1234"),
+("sophie1234", "Sophie", "Durand", "Natation", "Rennes", false, "sophie1234"),
+("lucas1234", "Lucas", "Lefevre", "Renforcement musculaire", "Angers", true, "lucas1234"),
+("emma1234", "Emma", "Moreau", "Vélo", "Saint-Nazaire", false, "emma1234"),
+("maxime1234", "Maxime", "Rousseau", "Marche", "Vannes", true, "maxime1234"),
+("clara1234", "Clara", "Garnier", "Randonnée", "Lorient", false, "clara1234");
 
 INSERT INTO activity_types (name) VALUES
 ('Course à pied'),
@@ -12,7 +12,8 @@ INSERT INTO activity_types (name) VALUES
 ('Renforcement musculaire'),
 ('Vélo'),
 ('Marche'),
-('Randonnée');
+('Randonnée'),
+('Autre');
 
 INSERT INTO activities (title, description, type_id, datetime, duration, user_id) VALUES
 ('Footing matinal', 'Petite course dans le parc pour se réveiller.', 1, '2023-10-15 07:00:00', 2700, 1),
@@ -28,11 +29,3 @@ INSERT INTO activities (title, description, type_id, datetime, duration, user_id
 ('Promenade du soir', 'Marche digestive dans le quartier.', 5, '2023-10-21 20:00:00', 1800, 5),
 ('Rando en montagne', 'Ascension du sommet local, superbe vue à l''arrivée.', 6, '2023-10-14 08:00:00', 14400, 6),
 ('Randonnée forestière', 'Découverte de nouveaux sentiers avec un groupe d''amis.', 6, '2023-10-22 09:00:00', 10800, 6);
-
-UPDATE users SET ville = 'Nantes' WHERE username = 'martin1234';
-UPDATE users SET ville = 'Rennes' WHERE username = 'sophie1234';
-UPDATE users SET ville = 'Angers' WHERE username = 'lucas1234';
-UPDATE users SET ville = 'Saint-Nazaire' WHERE username = 'emma1234';
-UPDATE users SET ville = 'Vannes' WHERE username = 'maxime1234';
-UPDATE users SET ville = 'Lorient' WHERE username = 'clara1234';
-UPDATE users SET ville = 'Guérande' WHERE username = '1';

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+    // Classe qui permet de faciliter la connexion à une base de donnée
     
     private static final String USER = "root";
     private static final String PASSWORD = "root";

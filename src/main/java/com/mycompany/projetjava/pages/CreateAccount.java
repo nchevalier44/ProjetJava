@@ -2,8 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.projetjava;
+package com.mycompany.projetjava.pages;
+import com.mycompany.projetjava.pages.AuthPage;
+import com.mycompany.projetjava.models.ActivityType;
+import com.mycompany.projetjava.services.ActivityService;
 import com.mycompany.projetjava.services.UserService;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
@@ -18,6 +23,24 @@ public class CreateAccount extends javax.swing.JFrame {
      */
     public CreateAccount() {
         initComponents();
+        loadSports();
+    }
+    
+    private void loadSports() {
+        selectFavoriteSport.removeAllItems();
+        
+        try {
+            ActivityService activityService = new ActivityService();
+            ArrayList<ActivityType> activityTypes = activityService.getAllActivityTypes();
+            
+            for (ActivityType type : activityTypes) {
+                selectFavoriteSport.addItem(type.getName());
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors du chargement des types d'activités : " + ex.getMessage());
+            selectFavoriteSport.addItem("Course à pied"); 
+            selectFavoriteSport.addItem("Autre");
+        }
     }
 
     /**
@@ -68,7 +91,6 @@ public class CreateAccount extends javax.swing.JFrame {
 
         passwordInput.addActionListener(this::passwordInputActionPerformed);
 
-        selectFavoriteSport.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Running", "Cyclisme", "Natation", "Others" }));
         selectFavoriteSport.addActionListener(this::selectFavoriteSportActionPerformed);
 
         jLabel4.setText("Sport Favori");

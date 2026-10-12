@@ -1,4 +1,5 @@
-package com.mycompany.projetjava;
+package com.mycompany.projetjava.pages;
+import com.mycompany.projetjava.UserSession;
 import com.mycompany.projetjava.models.User;
 import com.mycompany.projetjava.services.UserService;
 import javax.swing.JOptionPane;
@@ -42,7 +43,6 @@ public class AuthPage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 255, 153));
-        setPreferredSize(new java.awt.Dimension(350, 550));
 
         champID.setForeground(new java.awt.Color(200, 200, 200));
         champID.setText("Identifiant");
@@ -164,11 +164,10 @@ public class AuthPage extends javax.swing.JFrame {
         UserService userService = new UserService();
         try{
             
+            // Si les crédentials sont correctes, on bascule vers la page Home
             User user = userService.getUser(loginSaisi, mdpSaisi);
             if(user != null){
-                UserSession.getInstance().setUser(user);
-                
-                
+                UserSession.getInstance().setUser(user); // On stock les informations de l'utilisateur dans une instance static
                 
                 HomePage home = new HomePage();
                 home.setVisible(true);
@@ -196,14 +195,13 @@ public class AuthPage extends javax.swing.JFrame {
         connectionButton.doClick();
     }//GEN-LAST:event_passwordInputActionPerformed
 
+    /**
+     * Display the window to create an account
+     * @param evt 
+     */
     private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
         CreateAccount fenetreInscription = new CreateAccount();
-           
-        // 2. On l'affiche à l'écran
         fenetreInscription.setVisible(true);
-       
-        
-        // 3. (Optionnel) On ferme la fenêtre de connexion actuelle pour ne pas encombrer l'écran
         this.dispose();
     }//GEN-LAST:event_createAccountButtonActionPerformed
 

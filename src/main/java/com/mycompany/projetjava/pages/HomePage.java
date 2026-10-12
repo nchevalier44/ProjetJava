@@ -1,6 +1,12 @@
-package com.mycompany.projetjava;
+package com.mycompany.projetjava.pages;
 
+import com.mycompany.projetjava.ActivityCard;
+import com.mycompany.projetjava.ActivityDialog;
+import com.mycompany.projetjava.GeoUtils;
+import com.mycompany.projetjava.SettingDialog;
+import com.mycompany.projetjava.UserSession;
 import com.mycompany.projetjava.models.Activity;
+import com.mycompany.projetjava.models.WeeklySummary;
 import com.mycompany.projetjava.services.ActivityService;
 import com.mycompany.projetjava.services.UserService;
 import java.sql.SQLException;
@@ -47,7 +53,7 @@ public class HomePage extends javax.swing.JFrame {
         }
     });
 
-    // Écouteur pour recalculer la largeur si la fenêtre est redimensionnée
+    // Listener pour recalculer la largeur si la fenêtre est redimensionnée
     jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
         @Override
         public void componentResized(java.awt.event.ComponentEvent e) {
@@ -64,9 +70,12 @@ public class HomePage extends javax.swing.JFrame {
     public void refreshActivities(){
         fillFluxTab();
         fillMyActivitiesTab(); 
-        fillAccountTab();
+        fillMapTab();
     }
     
+    /**
+     * Fill Flux tab with all activities of users
+     */
     private void fillFluxTab() {
         javax.swing.JPanel container = new javax.swing.JPanel();
         container.setLayout(new javax.swing.BoxLayout(container, javax.swing.BoxLayout.Y_AXIS));
@@ -94,7 +103,11 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     
-        
+    /**
+     * Get all cards activities components
+     * @param others
+     * @return 
+     */    
     private ArrayList<ActivityCard> getActivityCards(boolean others){
         ActivityService as = new ActivityService();
         ArrayList<ActivityCard> cards = new ArrayList();
@@ -116,7 +129,10 @@ public class HomePage extends javax.swing.JFrame {
         return cards;
     }
     
-private void fillMyActivitiesTab() {
+    /**
+     * Fill My Activities Tab with user activities
+     */
+    private void fillMyActivitiesTab() {
         javax.swing.JPanel container = new javax.swing.JPanel();
         container.setLayout(new javax.swing.BoxLayout(container, javax.swing.BoxLayout.Y_AXIS));
         container.setBackground(new java.awt.Color(43, 45, 48)); 
@@ -149,7 +165,11 @@ private void fillMyActivitiesTab() {
         myActivitiesTab.setViewportView(container);
         myActivitiesTab.getVerticalScrollBar().setUnitIncrement(16);
     }
-
+    
+    /**
+     * Create add and settings buttons and stats
+     * @return 
+     */
     private javax.swing.JPanel createHeaderPanel() {
         javax.swing.JPanel headerPanel = new javax.swing.JPanel(new java.awt.BorderLayout(15, 0));
         headerPanel.setBackground(new java.awt.Color(43, 45, 48));
@@ -183,8 +203,14 @@ private void fillMyActivitiesTab() {
         lblProfile.setForeground(java.awt.Color.WHITE);
         headerPanel.add(lblProfile, java.awt.BorderLayout.CENTER);
 
-        
-        javax.swing.JButton btnSettings = new javax.swing.JButton("Réglages ⚙");
+        javax.swing.JButton btnSettings = new javax.swing.JButton("Réglages");
+        try {
+            javax.swing.ImageIcon iconSettings = new javax.swing.ImageIcon(getClass().getResource("/settings_icon.png"));
+            btnSettings.setIcon(iconSettings);
+            btnSettings.setIconTextGap(8);
+        } catch (Exception ignored) {
+            System.err.println("Image settings_icon.png introuvable !");
+        }
         btnSettings.setBackground(new java.awt.Color(60, 63, 65));
         btnSettings.setForeground(java.awt.Color.WHITE);
         btnSettings.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 13));
@@ -192,9 +218,9 @@ private void fillMyActivitiesTab() {
         btnSettings.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 16, 8, 16));
         btnSettings.addActionListener(evt -> {
-        SettingDialog settings = new SettingDialog(HomePage.this);
-           settings.setVisible(true);
-            });
+            SettingDialog settings = new SettingDialog(HomePage.this);
+            settings.setVisible(true);
+        });
         headerPanel.add(btnSettings, java.awt.BorderLayout.EAST);
 
         return headerPanel;
@@ -203,7 +229,7 @@ private void fillMyActivitiesTab() {
     /**
      * Panneau récapitulatif hebdomadaire
      */
- private String formatDuration(int totalSeconds) {
+    private String formatDuration(int totalSeconds) {
         if (totalSeconds == 0) {
             return "0 min";
         }
@@ -214,7 +240,12 @@ private void fillMyActivitiesTab() {
         }
         return minutes + " min";
     }
-private javax.swing.JPanel createWeeklySummaryPanel() {
+ 
+    /**
+     * Create the summary panel with statistics
+     * @return 
+     */
+    private javax.swing.JPanel createWeeklySummaryPanel() {
         javax.swing.JPanel summaryCard = new javax.swing.JPanel();
         summaryCard.setLayout(new java.awt.GridLayout(1, 3, 12, 0));
         summaryCard.setBackground(new java.awt.Color(55, 57, 61));
@@ -233,7 +264,7 @@ private javax.swing.JPanel createWeeklySummaryPanel() {
         // Récupération des données dynamiques depuis la base de données
         try {
             ActivityService as = new ActivityService();
-            ActivityService.WeeklySummary summary = as.getWeeklySummary();
+            WeeklySummary summary = as.getWeeklySummary();
 
             nbActivities = summary.count;
             totalTime = formatDuration(summary.totalDurationSeconds);
@@ -249,6 +280,7 @@ private javax.swing.JPanel createWeeklySummaryPanel() {
 
         return summaryCard;
     }
+    
     private javax.swing.JPanel createStatBlock(String title, String value) {
         javax.swing.JPanel block = new javax.swing.JPanel(new java.awt.BorderLayout(0, 4));
         block.setBackground(new java.awt.Color(55, 57, 61));
@@ -265,53 +297,66 @@ private javax.swing.JPanel createWeeklySummaryPanel() {
         block.add(lblVal, java.awt.BorderLayout.CENTER);
         return block;
     }
-private void fillAccountTab() {
-        // 1. Définition du User-Agent requis par les serveurs OSM
+    
+    /**
+     * Fill map tab with users informations
+     */
+    private void fillMapTab() {
+        // Définition du User-Agent requis par les serveurs OSM (faux user agent)
         System.setProperty("http.agent", "ProjetJavaSwingStudentApp/1.0 (contact: test@univ.fr)");
 
-        accountTab.removeAll();
-        accountTab.setLayout(new java.awt.BorderLayout());
+        mapTab.removeAll();
+        mapTab.setLayout(new java.awt.BorderLayout());
 
-        // 2. Récupération de la ville et de ses coordonnées
+        // Récupération de la ville et de ses coordonnées
         com.mycompany.projetjava.models.User user = UserSession.getInstance().getUser();
         String nomVille = (user != null && user.getVille() != null) ? user.getVille() : "Nantes";
         GeoUtils.Coordinates coords = GeoUtils.getCoordinates(nomVille);
 
         JXMapViewer mapViewer = new JXMapViewer();
 
-    TileFactoryInfo info = new TileFactoryInfo(
-        1, 15, 17, 256, true, true,
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile",
-        "x", "y", "z"
-    ) {
-        @Override
-        public String getTileUrl(int x, int y, int zoom) {
-            int z = 17 - zoom;
-            return this.baseURL + "/" + z + "/" + y + "/" + x;
-        }
-    };
+        TileFactoryInfo info = new TileFactoryInfo(
+            1, 15, 17, 256, true, true,
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile",
+            "x", "y", "z"
+        ) {
+            @Override
+            public String getTileUrl(int x, int y, int zoom) {
+                int z = 17 - zoom;
+                return this.baseURL + "/" + z + "/" + y + "/" + x;
+            }
+        };
 
-    DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-    tileFactory.setThreadPoolSize(8);
-    mapViewer.setTileFactory(tileFactory);
+        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+        tileFactory.setThreadPoolSize(8);
+        mapViewer.setTileFactory(tileFactory);
 
-        // 4. Centrage sur la ville
+        // Centrage sur la ville
         GeoPosition center = new GeoPosition(coords.lat, coords.lon);
         mapViewer.setZoom(4);
         mapViewer.setAddressLocation(center);
 
-        // 5. Interactions souris (glisser-déposer + zoom molette)
+        // Interactions souris (glisser-déposer + zoom molette)
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);
         mapViewer.addMouseMotionListener(mia);
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
 
-        // 6. Intégration dans l'onglet
-        accountTab.add(mapViewer, java.awt.BorderLayout.CENTER);
-        accountTab.revalidate();
-        accountTab.repaint();
+        // Intégration dans l'onglet
+        mapTab.add(mapViewer, java.awt.BorderLayout.CENTER);
+        mapTab.revalidate();
+        mapTab.repaint();
     }
-private java.awt.Image getMapImage(double lat, double lon, int width, int height) {
+    
+    /**
+     * Get the image of the map at the right position
+     * @param lat
+     * @param lon
+     * @param width
+     * @param height
+     * @return 
+     */
+    private java.awt.Image getMapImage(double lat, double lon, int width, int height) {
         try {
             // Service de cartes statiques Wikimedia / OSM (fiable et direct)
             String urlStr = "https://maps.wikimedia.org/img/osm-intl,13," 
@@ -351,25 +396,25 @@ private java.awt.Image getMapImage(double lat, double lon, int width, int height
         jTabbedPane1 = new javax.swing.JTabbedPane();
         fluxTab = new javax.swing.JScrollPane();
         myActivitiesTab = new javax.swing.JScrollPane();
-        accountTab = new javax.swing.JPanel();
+        mapTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.addTab("Flux", fluxTab);
         jTabbedPane1.addTab("Mes activités", myActivitiesTab);
 
-        javax.swing.GroupLayout accountTabLayout = new javax.swing.GroupLayout(accountTab);
-        accountTab.setLayout(accountTabLayout);
-        accountTabLayout.setHorizontalGroup(
-            accountTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout mapTabLayout = new javax.swing.GroupLayout(mapTab);
+        mapTab.setLayout(mapTabLayout);
+        mapTabLayout.setHorizontalGroup(
+            mapTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 913, Short.MAX_VALUE)
         );
-        accountTabLayout.setVerticalGroup(
-            accountTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mapTabLayout.setVerticalGroup(
+            mapTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 265, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Carte", accountTab);
+        jTabbedPane1.addTab("Carte", mapTab);
 
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
@@ -402,9 +447,9 @@ private java.awt.Image getMapImage(double lat, double lon, int width, int height
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel accountTab;
     private javax.swing.JScrollPane fluxTab;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel mapTab;
     private javax.swing.JScrollPane myActivitiesTab;
     // End of variables declaration//GEN-END:variables
 }

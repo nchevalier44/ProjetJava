@@ -1,5 +1,6 @@
 package com.mycompany.projetjava;
 
+import com.mycompany.projetjava.pages.AuthPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UIManager;
 
@@ -12,6 +13,7 @@ public class ProjetJava {
         } catch (Exception ex) {
             System.err.println("Erreur lors de l'initialisation du thème FlatLaf");
         }
+        //Ouvre la page d'authentification
         AuthPage pageConnexion = new AuthPage();
         pageConnexion.setVisible(true);
     }

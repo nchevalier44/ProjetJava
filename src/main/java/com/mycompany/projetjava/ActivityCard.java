@@ -4,6 +4,7 @@
  */
 package com.mycompany.projetjava;
 
+import com.mycompany.projetjava.pages.HomePage;
 import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.services.ActivityService;
 import java.sql.SQLException;
@@ -17,19 +18,25 @@ import javax.swing.JOptionPane;
  * @author Nathan
  */
 public class ActivityCard extends javax.swing.JPanel {
+    
+    private String type = "";
+    private String duration = "";
+    private Activity activity;
 
     /**
      * Creates new form ActivityCard
-     * @param with_icons
+     * @param with_icons: parameters set to true when the user can edit and delete an activity (in the page MyActivities) but set to false when it's not his activity (in the flux page)
      */
     public ActivityCard(boolean with_icons) {
         initComponents();
         
+        //If not icons, the user cannot edit or delete the activity, buttons not visible
         if(!with_icons){
             editButton.setVisible(false);
             deleteButton.setVisible(false);
         }
         
+        // Display colors
         java.awt.Color fondCarte = new java.awt.Color(60, 63, 65);
         java.awt.Color bleuAccent = new java.awt.Color(0, 120, 215);
         java.awt.Color textePrincipal = java.awt.Color.WHITE;
@@ -40,6 +47,7 @@ public class ActivityCard extends javax.swing.JPanel {
         javax.swing.border.Border padding = javax.swing.BorderFactory.createEmptyBorder(15, 20, 15, 20);
         setBorder(javax.swing.BorderFactory.createCompoundBorder(contour, padding));
 
+        // Apply colors
         nameLabel.setForeground(textePrincipal);
         dateLabel.setForeground(textePrincipal);
 
@@ -47,18 +55,19 @@ public class ActivityCard extends javax.swing.JPanel {
 
         typeDurationLabel.setForeground(texteSecondaire);
         descriptionLabel.setForeground(textePrincipal);
-
+        
+        // Size of the card
         int largeur = 600;
         int hauteur = this.getPreferredSize().height;
         this.setPreferredSize(new java.awt.Dimension(largeur, hauteur));
         this.setMaximumSize(new java.awt.Dimension(largeur, hauteur));
         this.setMinimumSize(new java.awt.Dimension(largeur, hauteur));
     }
-
-    private String type = "";
-    private String duration = "";
-    private Activity activity;
     
+    /**
+     * Set the activity and update every components of the card
+     * @param activity 
+     */
     public void setActivity(Activity activity) {
         this.activity = activity;
         setTitle(activity.getTitle());
@@ -69,25 +78,43 @@ public class ActivityCard extends javax.swing.JPanel {
         setUserName(activity.getUser().getName());
     }
     
+    /**
+     * Update the title of the card
+     * @param title 
+     */
     public void setTitle(String title){
         titleLabel.setText(title);
     }
     
+    /**
+     * Update the description of the card
+     * @param description 
+     */
     public void setDescription(String description){
+        //La balise <html> est pour le retour automatique à la ligne
         descriptionLabel.setText("<html>Description : " + description + "</html>");
     }
     
+    /**
+     * Update the type of the card
+     * @param type 
+     */
     public void setType(String type){
         this.type = type;
         updateTypeDurationLabel();
     }
     
+    /**
+     * Update the duration of the card
+     * @param duration 
+     */
     public void setDuration(int duration) {
         int hours = duration / 3600;
         int minutes = (duration % 3600) / 60;
         int seconds = duration % 60;
         
         this.duration = "";
+        // On n'affiche pas les heures/minutes/secondes si c'est égal à 0
         if(hours > 0){
             this.duration += hours + "h ";
         }
@@ -101,16 +128,27 @@ public class ActivityCard extends javax.swing.JPanel {
         updateTypeDurationLabel();
     }
     
+    /**
+     * Update the type and duration label (it's one label)
+     */
     public void updateTypeDurationLabel(){
         typeDurationLabel.setText(type + " - " + duration);
     }
     
+    /**
+     * Update the date of the card
+     * @param date 
+     */
     public void setDate(LocalDateTime date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy 'à' HH'h'mm", Locale.FRENCH);
         String formatedDate = date.format(formatter);
         dateLabel.setText(formatedDate);
     }
     
+    /**
+     * Update the name of the card
+     * @param name 
+     */
     public void setUserName(String name){
         nameLabel.setText(name);
     }
@@ -200,6 +238,10 @@ public class ActivityCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Delete the activity
+     * @param evt 
+     */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int choice = JOptionPane.showConfirmDialog(this, "Êtes-vous sûr de vouloir supprimer l'activité : " + this.activity.getTitle() + " ?");
         if(choice == JOptionPane.YES_OPTION){
@@ -207,6 +249,7 @@ public class ActivityCard extends javax.swing.JPanel {
             try{
                 as.delete(activity);
                 
+                // On récupère le parent (Home Page) pour appeler sa méthode refreshActivities() pour que la carte se supprime instantanément
                 java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
                 if (parentWindow instanceof HomePage home) {
                     home.refreshActivities();
@@ -220,8 +263,13 @@ public class ActivityCard extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
-
+    
+    /**
+     * Edit the activity
+     * @param evt 
+     */
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        // On ouvre une page de dialogue dans le parent Home Page
         java.awt.Window parentWindow = javax.swing.SwingUtilities.getWindowAncestor(this);
         if (parentWindow instanceof HomePage home) {
             ActivityDialog dialog = new ActivityDialog(home, true, activity);

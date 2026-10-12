@@ -15,21 +15,31 @@ public class ActivityDialog extends javax.swing.JDialog {
     
     private DateTimePicker dateTimePicker;
     Activity activity_edit;
+    // activity_edit est nul si la fenetre de dialogue est là pour ajouter une nouvelle activité
+    // activity_edit est true si la fenetre de dialogue est là pour modifier une activité existante
     
     /**
-     * Creates new form AddActivityDialog
+     * Create new dialog window to add an activity
+     * @param parent
+     * @param modal 
      */
     public ActivityDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         titleLabel.setText("Ajouter une activité");
-            
-        initDateTimePicker();
+        
+        initDateTimePicker(); // A mettre avant fillTitleLabel() car this.dateTimePicker est utilisé par défaut dedans
         fillTypeSelect();
         fillTitleLabel();
         
     }
     
+    /**
+     * Create new dialog window to edit an activity
+     * @param parent
+     * @param modal
+     * @param activity 
+     */
     public ActivityDialog(java.awt.Frame parent, boolean modal, Activity activity){
         super(parent, modal);
         initComponents();
@@ -37,13 +47,16 @@ public class ActivityDialog extends javax.swing.JDialog {
         this.activity_edit = activity;
         
         titleLabel.setText("Modifier une activité");
-        initDateTimePicker();
+        initDateTimePicker(); // A mettre avant fillTitleLabel() car this.dateTimePicker est utilisé par défaut dedans
         fillTitleLabel();
         fillDescription();
         fillTypeSelect();
         fillDuration();
     }
     
+    /**
+     * Update duration values
+     */
     private void fillDuration(){
         if(activity_edit != null){
             int duration = activity_edit.getDuration();
@@ -57,12 +70,18 @@ public class ActivityDialog extends javax.swing.JDialog {
         }
     }
     
+    /**
+     * Update description
+     */
     private void fillDescription(){
         if(activity_edit != null){
             descriptionInput.setText(activity_edit.getDescription());
         }
     }
     
+    /**
+     * Update title
+     */
     private void fillTitleLabel(){
         if(activity_edit == null){
             LocalDateTime currentDateTime = dateTimePicker.getDateTimePermissive();
@@ -75,6 +94,9 @@ public class ActivityDialog extends javax.swing.JDialog {
         }
     }
     
+    /**
+     * Initialize DateTimePicker object
+     */
     private void initDateTimePicker(){
         this.dateTimePicker = new DateTimePicker();
         if(activity_edit == null){
@@ -89,6 +111,9 @@ public class ActivityDialog extends javax.swing.JDialog {
         panelDateTime.repaint();
     }
     
+    /**
+     * Update activity types values
+     */
     private void fillTypeSelect(){
         try{
             ActivityService s = new ActivityService();
@@ -101,8 +126,8 @@ public class ActivityDialog extends javax.swing.JDialog {
             }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(this, 
-                "Error during activity types loading!",
-                "Database Error",
+                "Une erreur est survenue durant le chargement des différents types d'activités !",
+                "Erreur : Base de donnée",
                 JOptionPane.ERROR_MESSAGE
             );
         }
@@ -285,7 +310,11 @@ public class ActivityDialog extends javax.swing.JDialog {
     private void titleInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_titleInputActionPerformed
-
+    
+    /**
+     * Add or edit an activity
+     * @param evt 
+     */
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         String title = titleInput.getText();
         String description = descriptionInput.getText();

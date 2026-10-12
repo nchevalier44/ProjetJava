@@ -4,6 +4,8 @@ import com.mycompany.projetjava.models.User;
 
 public class UserSession {
 
+    // Classe qui stocke les informations de l'utilisateur actuel
+    
     private static UserSession instance;
     private User user;
 
