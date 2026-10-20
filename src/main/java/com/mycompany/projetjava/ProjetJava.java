@@ -1,6 +1,6 @@
 package com.mycompany.projetjava;
 
-import com.mycompany.projetjava.pages.AuthPage;
+import com.mycompany.projetjava.ui.AuthPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UIManager;
 

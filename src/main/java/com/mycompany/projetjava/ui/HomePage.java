@@ -1,9 +1,6 @@
-package com.mycompany.projetjava.pages;
+package com.mycompany.projetjava.ui;
 
-import com.mycompany.projetjava.ActivityCard;
-import com.mycompany.projetjava.ActivityDialog;
 import com.mycompany.projetjava.GeoUtils;
-import com.mycompany.projetjava.SettingDialog;
 import com.mycompany.projetjava.UserSession;
 import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.models.WeeklySummary;

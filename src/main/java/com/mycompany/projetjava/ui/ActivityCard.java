@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.projetjava;
+package com.mycompany.projetjava.ui;
 
-import com.mycompany.projetjava.pages.HomePage;
+import com.mycompany.projetjava.ui.HomePage;
 import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.services.ActivityService;
 import java.sql.SQLException;

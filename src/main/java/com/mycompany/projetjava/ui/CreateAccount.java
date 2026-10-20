@@ -2,8 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.projetjava.pages;
-import com.mycompany.projetjava.pages.AuthPage;
+package com.mycompany.projetjava.ui;
+import com.mycompany.projetjava.ui.AuthPage;
 import com.mycompany.projetjava.models.ActivityType;
 import com.mycompany.projetjava.services.ActivityService;
 import com.mycompany.projetjava.services.UserService;

@@ -1,5 +1,6 @@
-package com.mycompany.projetjava;
+package com.mycompany.projetjava.ui;
 import com.github.lgooddatepicker.components.DateTimePicker;
+import com.mycompany.projetjava.UserSession;
 import com.mycompany.projetjava.models.Activity;
 import com.mycompany.projetjava.models.ActivityType;
 import com.mycompany.projetjava.services.ActivityService;

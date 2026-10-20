@@ -1,7 +1,8 @@
-package com.mycompany.projetjava;
+package com.mycompany.projetjava.ui;
 
-import com.mycompany.projetjava.pages.HomePage;
-import com.mycompany.projetjava.pages.AuthPage;
+import com.mycompany.projetjava.UserSession;
+import com.mycompany.projetjava.ui.HomePage;
+import com.mycompany.projetjava.ui.AuthPage;
 import com.mycompany.projetjava.models.ActivityType;
 import com.mycompany.projetjava.models.User;
 import com.mycompany.projetjava.services.ActivityService;
